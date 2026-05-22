@@ -32,7 +32,7 @@ function onSelect(index) {
 .ios-segmented-control {
   display: flex;
   background-color: var(--fill-secondary);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   padding: 2px;
   gap: 2px;
 }
@@ -40,7 +40,7 @@ function onSelect(index) {
   flex: 1;
   padding: var(--space-1) var(--space-3);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--label-secondary);
   cursor: pointer;

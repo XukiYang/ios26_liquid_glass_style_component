@@ -67,10 +67,10 @@ function onCancel() {
   align-items: center;
   gap: var(--space-2);
   background-color: var(--fill-primary);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   padding: 0 var(--space-3);
 }
-.ios-searchbar-icon { font-size: 16px; }
+.ios-searchbar-icon { font-size: var(--text-callout); }
 .ios-searchbar-input {
   flex: 1;
   border: none;

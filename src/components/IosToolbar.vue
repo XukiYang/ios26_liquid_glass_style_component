@@ -8,7 +8,7 @@
       <slot name="trailing" />
     </div>
   </header>
-  <div v-if="largeTitle && !collapsed" class="ios-toolbar-large-title" style="padding: 0 16px 8px;">
+  <div v-if="largeTitle && !collapsed" class="ios-toolbar-large-title">
     {{ title }}
   </div>
 </template>
@@ -50,6 +50,7 @@ const collapsed = computed(() => props.scrollY > 44)
   box-shadow: 0 0.5px 0 0 var(--separator);
 }
 .ios-toolbar-large-title {
+  padding: 0 var(--space-4) var(--space-2);
   font-family: var(--font-family);
   font-size: var(--text-large-title);
   line-height: var(--lh-large-title);

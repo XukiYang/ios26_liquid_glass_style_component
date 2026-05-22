@@ -54,7 +54,7 @@ function onAction(action) {
 }
 .ios-alert {
   width: 270px;
-  border-radius: 14px;
+  border-radius: var(--radius-xl);
   padding: var(--space-6);
   text-align: center;
 }
@@ -87,7 +87,7 @@ p {
   letter-spacing: var(--ls-callout);
   padding: var(--space-2);
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--color-blue);
   color: var(--white);
   font-weight: var(--weight-semibold);

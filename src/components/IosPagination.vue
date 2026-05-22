@@ -155,11 +155,11 @@ function goTo(page) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: var(--space-8);
+  height: var(--space-8);
   padding: 0;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: transparent;
   color: var(--label-secondary);
   font-family: var(--font-family);
@@ -185,7 +185,7 @@ function goTo(page) {
 }
 
 .ios-pagination-btn.ios-pagination-disabled {
-  opacity: 0.3;
+  opacity: var(--opacity-subtle);
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -194,8 +194,8 @@ function goTo(page) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: var(--space-8);
+  height: var(--space-8);
   font-family: var(--font-family);
   color: var(--label-tertiary);
   font-size: var(--text-subheadline);

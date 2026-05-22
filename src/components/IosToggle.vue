@@ -43,7 +43,7 @@ function onToggle() {
   position: relative;
   width: 51px;
   height: 31px;
-  border-radius: 16px;
+  border-radius: var(--radius-2xl);
   border: none;
   background-color: var(--fill-primary);
   cursor: pointer;
@@ -54,8 +54,8 @@ function onToggle() {
 .ios-toggle.ios-checked { background-color: var(--color-green); }
 .ios-toggle-thumb {
   position: absolute;
-  top: 2px;
-  left: 2px;
+  top: var(--radius-xs);
+  left: var(--radius-xs);
   width: 27px;
   height: 27px;
   border-radius: 50%;

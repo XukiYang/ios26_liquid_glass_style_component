@@ -118,14 +118,14 @@ onUnmounted(() => {
   position: relative;
   display: flex;
   align-items: center;
-  height: 40px;
+  height: var(--space-10);
   padding: 2px;
   gap: 2px;
   /* Regular glass material */
   background: var(--lgb-track-bg);
   backdrop-filter: blur(40px) saturate(1.2);
   -webkit-backdrop-filter: blur(40px) saturate(1.2);
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
   overflow: hidden;
   box-shadow: var(--lgb-track-shadow);
 }
@@ -135,7 +135,7 @@ onUnmounted(() => {
   position: absolute;
   top: 2px;
   height: 36px;
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
   /* Semi-transparent glass body */
   background: var(--lgb-pill-bg);
   box-shadow: var(--lgb-pill-shadow);
@@ -163,7 +163,7 @@ onUnmounted(() => {
   background: none;
   color: var(--label-secondary);
   cursor: pointer;
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
   font-family: var(--font-family);
   white-space: nowrap;
   transition: color 0.25s;

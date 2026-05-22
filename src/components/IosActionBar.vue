@@ -63,11 +63,11 @@ function select(id) {
 .ios-action-bar {
   display: flex;
   flex-direction: column;
-  border-radius: 12px;
+  border-radius: var(--glass-medium-radius);
   background: var(--fill-secondary);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
-  border: 0.5px solid var(--separator);
+  border: var(--border-hairline) solid var(--separator);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
 }
@@ -96,7 +96,7 @@ function select(id) {
 
 /* ---- Separator ---- */
 .ios-action-bar-item.ios-has-separator {
-  border-bottom: 0.5px solid var(--separator);
+  border-bottom: var(--border-hairline) solid var(--separator);
 }
 
 /* ---- Icon (emoji placeholder) ---- */
@@ -104,9 +104,9 @@ function select(id) {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  font-size: 16px;
+  width: var(--space-6);
+  height: var(--space-6);
+  font-size: var(--text-callout);
   line-height: 1;
   flex-shrink: 0;
   color: var(--label-primary);

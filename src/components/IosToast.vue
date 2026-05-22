@@ -39,11 +39,11 @@ const { toasts, removeToast } = useToast()
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-3) var(--space-4);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   background-color: var(--fill-primary);
   backdrop-filter: blur(var(--blur-regular));
   -webkit-backdrop-filter: blur(var(--blur-regular));
-  border: 0.5px solid var(--separator);
+  border: var(--border-hairline) solid var(--separator);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   pointer-events: auto;
   transition: background-color 0.3s;
@@ -54,7 +54,7 @@ const { toasts, removeToast } = useToast()
   flex-shrink: 0;
   width: 3px;
   height: 24px;
-  border-radius: 2px;
+  border-radius: var(--radius-xs);
   background-color: var(--color-blue);
 }
 
@@ -98,7 +98,7 @@ const { toasts, removeToast } = useToast()
   border-radius: 50%;
   background: transparent;
   color: var(--label-secondary);
-  font-size: 18px;
+  font-size: var(--text-body);
   line-height: 1;
   cursor: pointer;
   transition: background-color 0.2s, color 0.2s;

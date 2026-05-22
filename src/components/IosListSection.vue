@@ -23,7 +23,7 @@ defineProps({
 }
 .ios-list-section-content {
   background-color: var(--bg-grouped-secondary);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   margin: 0 var(--space-4);
   overflow: hidden;
 }

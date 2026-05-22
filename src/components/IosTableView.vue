@@ -145,7 +145,7 @@ function rowIndentStyle(item) {
 
 .ios-table-view-content {
   background-color: var(--bg-grouped-secondary);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
 }
 
@@ -202,8 +202,8 @@ function rowIndentStyle(item) {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: var(--space-7);
+  height: var(--space-7);
   font-size: var(--text-callout);
   color: var(--color-blue);
 }
@@ -252,7 +252,7 @@ function rowIndentStyle(item) {
 }
 
 .ios-table-view-disclosure {
-  font-size: 18px;
+  font-size: var(--text-body);
   color: var(--label-tertiary);
   line-height: 1;
 }

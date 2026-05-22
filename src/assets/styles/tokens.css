@@ -167,6 +167,24 @@
   --space-12: 48px;
   --space-16: 64px;
 
+  /* -- Radius (iOS 26 control radii) ------------------------------------ */
+  --radius-xs: 2px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
+
+  /* -- Opacity ----------------------------------------------------------- */
+  --opacity-disabled: 0.4;
+  --opacity-muted: 0.5;
+  --opacity-subtle: 0.3;
+  --opacity-hover: 0.7;
+
+  /* -- Border ------------------------------------------------------------ */
+  --border-hairline: 0.5px;
+
   /* -- Layout ------------------------------------------------------------ */
   --safe-area-top: 59px;
   --safe-area-bottom: 34px;

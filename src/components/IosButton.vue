@@ -27,7 +27,7 @@ defineEmits(['click'])
   gap: var(--space-2);
   border: none;
   outline: none;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   cursor: pointer;
   font-family: var(--font-family);
   font-size: var(--text-subheadline);
@@ -35,7 +35,7 @@ defineEmits(['click'])
   transition: opacity 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
-.ios-btn:disabled { opacity: 0.4; pointer-events: none; }
+.ios-btn:disabled { opacity: var(--opacity-disabled); pointer-events: none; }
 .ios-btn-small { padding: 6px 12px; min-height: 28px; font-size: var(--text-footnote); }
 .ios-btn-medium { padding: 8px 16px; min-height: 36px; }
 .ios-btn-large { padding: 12px 20px; min-height: 50px; font-size: var(--text-body); }

@@ -51,15 +51,15 @@ function onInput(e) {
   flex: 1;
   -webkit-appearance: none;
   appearance: none;
-  height: 4px;
-  border-radius: 2px;
+  height: var(--space-1);
+  border-radius: var(--radius-xs);
   background: linear-gradient(to right, var(--color-blue) 0%, var(--color-blue) var(--ios-slider-fill), var(--fill-primary) var(--ios-slider-fill), var(--fill-primary) 100%);
   outline: none;
 }
 .ios-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 28px;
-  height: 28px;
+  width: var(--space-7);
+  height: var(--space-7);
   border-radius: 50%;
   background: var(--white);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);

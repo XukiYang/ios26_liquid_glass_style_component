@@ -44,5 +44,5 @@ defineProps({
 .ios-list-row-content { flex: 1; }
 .ios-list-row-leading { display: flex; align-items: center; }
 .ios-list-row-trailing { text-align: right; }
-.ios-list-row-disclosure { color: var(--label-tertiary); font-size: 18px; }
+.ios-list-row-disclosure { color: var(--label-tertiary); font-size: var(--text-body); }
 </style>

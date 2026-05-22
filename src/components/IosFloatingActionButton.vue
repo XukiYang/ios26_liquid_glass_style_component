@@ -210,8 +210,8 @@ watch(
   background: var(--fill-secondary);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
-  border-radius: 14px;
-  border: 0.5px solid var(--separator);
+  border-radius: var(--radius-xl);
+  border: var(--border-hairline) solid var(--separator);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   padding: var(--space-1);
   opacity: 0;
@@ -246,7 +246,7 @@ watch(
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 0.5px solid var(--separator);
+  border: var(--border-hairline) solid var(--separator);
   background: var(--fill-secondary);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
@@ -290,6 +290,6 @@ watch(
 
 .ios-fab-actions-panel::-webkit-scrollbar-thumb {
   background: var(--label-quaternary);
-  border-radius: 2px;
+  border-radius: var(--radius-xs);
 }
 </style>

@@ -76,7 +76,7 @@ defineEmits(['action'])
 
 .ios-empty-state-icon {
   margin-bottom: var(--space-4);
-  opacity: 0.4;
+  opacity: var(--opacity-disabled);
   width: 48px;
   height: 48px;
   display: flex;
@@ -133,10 +133,10 @@ defineEmits(['action'])
 }
 
 .ios-empty-state-action-btn:hover {
-  opacity: 0.7;
+  opacity: var(--opacity-hover);
 }
 
 .ios-empty-state-action-btn:active {
-  opacity: 0.5;
+  opacity: var(--opacity-muted);
 }
 </style>

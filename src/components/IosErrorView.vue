@@ -86,7 +86,7 @@ defineEmits(['retry', 'go-home'])
 
 .ios-error-view-icon {
   margin-bottom: var(--space-6);
-  opacity: 0.3;
+  opacity: var(--opacity-subtle);
   width: 56px;
   height: 56px;
   display: flex;
@@ -135,7 +135,7 @@ defineEmits(['retry', 'go-home'])
   font-size: var(--text-subheadline);
   font-weight: var(--weight-semibold);
   border: none;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   padding: 10px 24px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -143,11 +143,11 @@ defineEmits(['retry', 'go-home'])
 }
 
 .ios-error-view-btn:hover {
-  opacity: 0.7;
+  opacity: var(--opacity-hover);
 }
 
 .ios-error-view-btn:active {
-  opacity: 0.5;
+  opacity: var(--opacity-muted);
 }
 
 .ios-error-view-btn--retry {

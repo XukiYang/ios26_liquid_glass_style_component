@@ -30,7 +30,7 @@ defineProps({
 .ios-chip {
   display: inline-flex;
   align-items: center;
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
   background-color: var(--fill-secondary);
   color: var(--label-secondary);
   font-family: var(--font-family);
@@ -62,7 +62,7 @@ defineProps({
 
 /* ---- Disabled ---- */
 .ios-chip-disabled {
-  opacity: 0.4;
+  opacity: var(--opacity-disabled);
   pointer-events: none;
 }
 </style>

@@ -50,7 +50,7 @@ function onClear() {
   display: flex;
   align-items: center;
   background-color: var(--fill-primary);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   padding: 0 var(--space-3);
   gap: var(--space-2);
 }
@@ -68,7 +68,7 @@ function onClear() {
   background: none;
   border: none;
   color: var(--label-tertiary);
-  font-size: 18px;
+  font-size: var(--text-body);
   cursor: pointer;
   padding: 0;
   line-height: 1;

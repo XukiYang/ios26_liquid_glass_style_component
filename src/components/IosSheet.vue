@@ -75,7 +75,7 @@ function onDragEnd() {
 }
 .ios-sheet {
   width: 100%;
-  border-radius: 14px 14px 0 0;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   padding: var(--space-2) var(--space-4) var(--space-8);
   max-height: 85vh;
   overflow-y: auto;
