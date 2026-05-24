@@ -14,7 +14,8 @@
     <header class="status-bar liquid-glass-large">
       <div class="toolbar-leading">
         <IosButton variant="plain" size="small" @click="toggleTheme">
-          {{ isDark ? '☀︎ Light' : '☾ Dark' }}
+          <IosIcon :name="isDark ? 'sun-one' : 'moon'" size="16" />
+          {{ isDark ? 'Light' : 'Dark' }}
         </IosButton>
       </div>
       <div class="toolbar-title text-headline emphasized">iOS 26 — Liquid Glass</div>
@@ -23,138 +24,237 @@
 
     <main class="scroll-area" @scroll="onScroll" ref="scrollRef">
 
-      <!-- Hero -->
-      <section class="hero">
-        <div class="hero-glass liquid-glass-large">
-          <span class="hero-icon"></span>
-          <h1 class="text-large-title emphasized">iOS 26</h1>
-          <p class="text-title3 text-secondary">Design System Preview</p>
-        </div>
-      </section>
-
-      <!-- Section: Glass Materials -->
-      <section class="section">
-        <h2 class="section-label text-footnote emphasized text-secondary" style="text-transform:uppercase;letter-spacing:0.5px;">Materials</h2>
-        <div class="materials-row">
-          <div v-for="m in materials" :key="m.label" :class="['material-chip', m.class]">
-            <span class="text-caption1">{{ m.label }}</span>
+      <!-- ============ Preview Tab: Visual Foundation ============ -->
+      <template v-if="activeTab === 'preview'">
+        <section class="hero">
+          <div class="hero-glass liquid-glass-large">
+            <IosIcon name="apple" size="40" />
+            <h1 class="text-large-title emphasized">iOS 26</h1>
+            <p class="text-title3 text-secondary">Design System Preview</p>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Section: System Colors -->
-      <section class="section">
-        <h2 class="section-label text-footnote emphasized text-secondary" style="text-transform:uppercase;letter-spacing:0.5px;">System Colors</h2>
-        <div class="color-grid">
-          <div v-for="c in systemColors" :key="c.name" class="color-chip liquid-glass-small">
-            <div class="color-swatch" :style="{ background: c.css }" />
-            <span class="text-caption2">{{ c.name }}</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section: Typography -->
-      <section class="section">
-        <h2 class="section-label text-footnote emphasized text-secondary" style="text-transform:uppercase;letter-spacing:0.5px;">Typography</h2>
-        <div class="glass-card liquid-glass-medium">
-          <div v-for="t in typeStyles" :key="t.name" class="type-row">
-            <span :class="['type-sample', t.class]">{{ t.label }}</span>
-            <span class="text-caption2 text-tertiary type-meta">{{ t.name }} · {{ t.size }}</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section: Buttons -->
-      <section class="section">
-        <h2 class="section-label text-footnote emphasized text-secondary" style="text-transform:uppercase;letter-spacing:0.5px;">Buttons</h2>
-        <div class="glass-card liquid-glass-medium">
-          <div class="btn-grid">
-            <div v-for="v in buttonVariants" :key="v" class="btn-cell">
-              <IosButton :variant="v" size="medium">{{ v }}</IosButton>
-              <span class="text-caption2 text-tertiary">{{ v }}</span>
+        <section class="section">
+          <h2 class="section-label text-footnote emphasized text-secondary">Materials</h2>
+          <div class="materials-row">
+            <div v-for="m in materials" :key="m.label" :class="['material-chip', m.class]">
+              <span class="text-caption1">{{ m.label }}</span>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Section: Controls -->
-      <section class="section">
-        <h2 class="section-label text-footnote emphasized text-secondary" style="text-transform:uppercase;letter-spacing:0.5px;">Controls</h2>
-        <div class="glass-card liquid-glass-medium">
-          <IosSegmentedControl :segments="['Day', 'Week', 'Month', 'Year']" v-model="segIndex" />
-          <div style="height:16px" />
-
-          <IosToggle v-model="toggle1" label="Airplane Mode" />
-          <div class="separator" />
-          <IosToggle v-model="toggle2" label="Wi-Fi" />
-          <div class="separator" />
-          <IosToggle v-model="toggle3" label="Bluetooth" />
-
-          <div style="height:16px" />
-          <IosSlider v-model="sliderVal" :min="0" :max="100">
-            <template #leading><span class="text-caption1">Vol</span></template>
-            <template #trailing><span class="text-caption1 text-secondary">{{ sliderVal }}%</span></template>
-          </IosSlider>
-        </div>
-      </section>
-
-      <!-- Section: Liquid Glass Bar (animated capsule) -->
-      <section class="section">
-        <h2 class="section-label text-footnote emphasized text-secondary" style="text-transform:uppercase;letter-spacing:0.5px;">Liquid Glass Bar</h2>
-        <div class="glass-card liquid-glass-medium" style="display:flex;flex-direction:column;gap:12px;">
-          <IosLiquidGlassBar v-model="glassBar1" :options="['For You', 'Browse', 'Radio', 'Library']" />
-          <IosLiquidGlassBar v-model="glassBar2" :options="['Day', 'Week', 'Month']" />
-          <IosLiquidGlassBar v-model="glassBar3" :options="['Music', 'Podcasts']" />
-          <div class="text-caption1 text-secondary" style="text-align:center;">
-            Click an option — the glass pill slides with animated distortion
+        <section class="section">
+          <h2 class="section-label text-footnote emphasized text-secondary">System Colors</h2>
+          <div class="color-grid">
+            <div v-for="c in systemColors" :key="c.name" class="color-chip liquid-glass-small">
+              <div class="color-swatch" :style="{ background: c.css }" />
+              <span class="text-caption2">{{ c.name }}</span>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Section: Inputs -->
-      <section class="section">
-        <h2 class="section-label text-footnote emphasized text-secondary" style="text-transform:uppercase;letter-spacing:0.5px;">Inputs</h2>
-        <div class="glass-card liquid-glass-medium">
-          <IosTextField v-model="textVal" label="Name" placeholder="Enter your name" clearable />
-          <div style="height:12px" />
-          <IosSearchBar v-model="searchVal" placeholder="Search..." />
-        </div>
-      </section>
+        <section class="section">
+          <h2 class="section-label text-footnote emphasized text-secondary">Typography</h2>
+          <div class="glass-card liquid-glass-medium">
+            <div v-for="t in typeStyles" :key="t.name" class="type-row">
+              <span :class="['type-sample', t.class]">{{ t.label }}</span>
+              <span class="text-caption2 text-tertiary type-meta">{{ t.name }} · {{ t.size }}</span>
+            </div>
+          </div>
+        </section>
 
-      <!-- Section: List -->
-      <section class="section">
-        <h2 class="section-label text-footnote emphasized text-secondary" style="text-transform:uppercase;letter-spacing:0.5px;">List</h2>
-        <IosListSection header="Settings">
-          <IosListRow disclosure>
-            <template #leading><span class="row-icon">✈️</span></template>
-            Airplane Mode
-            <template #trailing>Off</template>
-          </IosListRow>
-          <IosListRow disclosure separator>
-            <template #leading><span class="row-icon">📶</span></template>
-            Wi-Fi
-            <template #trailing>Home_5G</template>
-          </IosListRow>
-          <IosListRow disclosure separator>
-            <template #leading><span class="row-icon">🔵</span></template>
-            Bluetooth
-            <template #trailing>On</template>
-          </IosListRow>
-          <IosListRow disclosure>
-            <template #leading><span class="row-icon">📱</span></template>
-            Cellular
-          </IosListRow>
-        </IosListSection>
-      </section>
+        <section class="section" style="padding-bottom: 100px;">
+          <h2 class="section-label text-footnote emphasized text-secondary">Icons</h2>
+          <div class="glass-card liquid-glass-medium">
+            <div class="icon-grid">
+              <div v-for="name in iconNames" :key="name" class="icon-demo">
+                <IosIcon :name="name" size="24" />
+                <span class="text-caption2 text-secondary">{{ name }}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </template>
 
-      <!-- Section: Overlays -->
-      <section class="section" style="padding-bottom: 100px;">
-        <h2 class="section-label text-footnote emphasized text-secondary" style="text-transform:uppercase;letter-spacing:0.5px;">Overlays</h2>
-        <div class="glass-card liquid-glass-medium" style="display:flex;gap:8px;align-items:center;">
-          <IosButton variant="filled" @click="alertOpen = true">Alert</IosButton>
-          <IosButton variant="liquid-glass" @click="sheetOpen = true">Sheet</IosButton>
-        </div>
-      </section>
+      <!-- ============ Controls Tab: Interactive Controls ============ -->
+      <template v-if="activeTab === 'controls'">
+        <section class="section" style="padding-top:8px;">
+          <h2 class="section-label text-footnote emphasized text-secondary">Buttons</h2>
+          <div class="glass-card liquid-glass-medium">
+            <div class="btn-grid">
+              <div v-for="v in buttonVariants" :key="v" class="btn-cell">
+                <IosButton :variant="v" size="medium">{{ v }}</IosButton>
+                <span class="text-caption2 text-tertiary">{{ v }}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="section-label text-footnote emphasized text-secondary">Chips</h2>
+          <div class="glass-card liquid-glass-medium" style="display:flex;flex-wrap:wrap;gap:8px;">
+            <IosChip v-for="(chip, i) in chipData" :key="i" :active="activeChip === i" @click="activeChip = i">
+              {{ chip.label }}
+            </IosChip>
+            <IosChip disabled>Disabled</IosChip>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="section-label text-footnote emphasized text-secondary">Controls</h2>
+          <div class="glass-card liquid-glass-medium">
+            <IosSegmentedControl :segments="['Day', 'Week', 'Month', 'Year']" v-model="segIndex" />
+            <div style="height:16px" />
+            <IosToggle v-model="toggle1" label="Airplane Mode" />
+            <div class="separator" />
+            <IosToggle v-model="toggle2" label="Wi-Fi" />
+            <div class="separator" />
+            <IosToggle v-model="toggle3" label="Bluetooth" />
+            <div style="height:16px" />
+            <IosSlider v-model="sliderVal" :min="0" :max="100">
+              <template #leading><span class="text-caption1">Vol</span></template>
+              <template #trailing><span class="text-caption1 text-secondary">{{ sliderVal }}%</span></template>
+            </IosSlider>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="section-label text-footnote emphasized text-secondary">Inputs</h2>
+          <div class="glass-card liquid-glass-medium">
+            <IosTextField v-model="textVal" label="Name" placeholder="Enter your name" />
+            <div style="height:12px" />
+            <IosSearchBar v-model="searchVal" placeholder="Search..." />
+          </div>
+        </section>
+
+        <section class="section" style="padding-bottom: 100px;">
+          <h2 class="section-label text-footnote emphasized text-secondary">Progress Bar</h2>
+          <div class="glass-card liquid-glass-medium" style="position:relative;padding-top:24px;">
+            <IosProgressBar :progress="scrollProgress" :fixed="false" />
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span class="text-caption2 text-secondary">Page scroll progress</span>
+              <span class="text-caption2 emphasized" style="color:var(--color-blue);">{{ scrollProgress }}%</span>
+            </div>
+          </div>
+        </section>
+      </template>
+
+      <!-- ============ Navigation Tab: Navigation & Lists ============ -->
+      <template v-if="activeTab === 'navigation'">
+        <section class="section" style="padding-top:8px;">
+          <h2 class="section-label text-footnote emphasized text-secondary">Liquid Glass Bar</h2>
+          <div class="glass-card liquid-glass-medium" style="display:flex;flex-direction:column;gap:12px;">
+            <IosLiquidGlassBar v-model="glassBar1" :options="['For You', 'Browse', 'Radio', 'Library']" />
+            <IosLiquidGlassBar v-model="glassBar2" :options="['Day', 'Week', 'Month']" />
+            <IosLiquidGlassBar v-model="glassBar3" :options="['Music', 'Podcasts']" />
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="section-label text-footnote emphasized text-secondary">List</h2>
+          <IosListSection header="Settings">
+            <IosListRow disclosure>
+              <template #leading><IosIcon name="aviation" size="20" /></template>
+              Airplane Mode
+              <template #trailing>Off</template>
+            </IosListRow>
+            <IosListRow disclosure separator>
+              <template #leading><IosIcon name="wifi" size="20" /></template>
+              Wi-Fi
+              <template #trailing>Home_5G</template>
+            </IosListRow>
+            <IosListRow disclosure separator>
+              <template #leading><IosIcon name="bluetooth" size="20" /></template>
+              Bluetooth
+              <template #trailing>On</template>
+            </IosListRow>
+            <IosListRow disclosure>
+              <template #leading><IosIcon name="iphone" size="20" /></template>
+              Cellular
+            </IosListRow>
+          </IosListSection>
+        </section>
+
+        <section class="section">
+          <h2 class="section-label text-footnote emphasized text-secondary">Table View</h2>
+          <IosTableView header="Features" :items="tableItems" footer="More features available in iOS 26." @select="onTableSelect" />
+        </section>
+
+        <section class="section">
+          <h2 class="section-label text-footnote emphasized text-secondary">Action Bar</h2>
+          <IosActionBar :items="actionItems" @change="onActionSelect" />
+        </section>
+
+        <section class="section" style="padding-bottom: 100px;">
+          <h2 class="section-label text-footnote emphasized text-secondary">Pagination</h2>
+          <div class="glass-card liquid-glass-medium">
+            <IosPagination v-model="currentPage" :total="85" :page-size="10" :max-visible="7" />
+            <div style="text-align:center;margin-top:8px;">
+              <span class="text-caption2 text-secondary">Page {{ currentPage }} of 9</span>
+            </div>
+          </div>
+        </section>
+      </template>
+
+      <!-- ============ More Tab: Feedback & Settings ============ -->
+      <template v-if="activeTab === 'more'">
+        <section class="section" style="padding-top:8px;">
+          <h2 class="section-label text-footnote emphasized text-secondary">Overlays</h2>
+          <div class="glass-card liquid-glass-medium" style="display:flex;gap:8px;align-items:center;">
+            <IosButton variant="filled" @click="alertOpen = true">Alert</IosButton>
+            <IosButton variant="liquid-glass" @click="sheetOpen = true">Sheet</IosButton>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="section-label text-footnote emphasized text-secondary">Toast</h2>
+          <div class="glass-card liquid-glass-medium" style="display:flex;gap:8px;flex-wrap:wrap;">
+            <IosButton variant="filled" @click="showToast('success')">Success</IosButton>
+            <IosButton variant="tinted" @click="showToast('error')">Error</IosButton>
+            <IosButton variant="gray" @click="showToast('warning')">Warning</IosButton>
+            <IosButton variant="plain" @click="showToast('info')">Info</IosButton>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="section-label text-footnote emphasized text-secondary">Empty State</h2>
+          <div class="glass-card liquid-glass-medium">
+            <IosEmptyState icon="hourglass-null" title="No Content" description="Your content will appear here once available." action-text="Refresh" @action="console.log('refresh')" />
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="section-label text-footnote emphasized text-secondary">Error View</h2>
+          <IosErrorView title="Something Went Wrong" message="The operation couldn't be completed. Please try again." @retry="console.log('retry')" @go-home="console.log('home')" />
+        </section>
+
+        <section class="section" style="padding-bottom: 100px;">
+          <h2 class="section-label text-footnote emphasized text-secondary">Settings</h2>
+          <div class="glass-card liquid-glass-medium">
+            <IosListSection>
+              <IosListRow>
+                <template #leading><IosIcon :name="isDark ? 'moon' : 'sun-one'" size="20" /></template>
+                Dark Mode
+                <template #trailing>
+                  <IosButton variant="plain" size="small" @click="toggleTheme">
+                    {{ isDark ? 'Disable' : 'Enable' }}
+                  </IosButton>
+                </template>
+              </IosListRow>
+              <IosListRow separator disclosure>
+                <template #leading><IosIcon name="editor" size="20" /></template>
+                Font
+                <template #trailing>HarmonyOS Sans</template>
+              </IosListRow>
+              <IosListRow disclosure>
+                <template #leading><IosIcon name="setting-one" size="20" /></template>
+                Accent Color
+                <template #trailing>Blue</template>
+              </IosListRow>
+            </IosListSection>
+          </div>
+        </section>
+      </template>
 
       <div class="bottom-spacer" />
     </main>
@@ -165,13 +265,13 @@
         class="tab-item-custom"
         :class="{ active: activeTab === t.id }"
         @click="activeTab = t.id">
-        <span class="tab-icon">{{ t.icon }}</span>
+        <IosIcon :name="t.iconName" size="22" />
         <span class="text-caption2">{{ t.label }}</span>
       </button>
     </nav>
   </div>
 
-  <!-- Overlays -->
+  <!-- Global Overlays -->
   <IosAlert v-model="alertOpen" title="Face ID & Passcode"
     message="Enter your passcode to access this feature."
     :actions="alertActions" />
@@ -184,12 +284,22 @@
     </IosListSection>
   </IosSheet>
 
-  <!-- Draggable Liquid Glass Lens — mounted to body -->
+  <IosToast />
+
+  <IosFloatingActionButton v-model:expanded="fabExpanded" position="bottom-right" :offset-x="20" :offset-y="80" :z-index="200">
+    <template #actions>
+      <div style="display:flex;flex-direction:column;gap:4px;padding:4px;">
+        <IosButton variant="plain" size="small" @click="onFabAction('New Document')">New Document</IosButton>
+        <IosButton variant="plain" size="small" @click="onFabAction('Import')">Import</IosButton>
+      </div>
+    </template>
+  </IosFloatingActionButton>
+
   <LiquidGlassEffect />
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import IosButton from './components/IosButton.vue'
 import IosSegmentedControl from './components/IosSegmentedControl.vue'
 import IosToggle from './components/IosToggle.vue'
@@ -201,18 +311,59 @@ import IosListSection from './components/IosListSection.vue'
 import IosAlert from './components/IosAlert.vue'
 import IosSheet from './components/IosSheet.vue'
 import IosLiquidGlassBar from './components/IosLiquidGlassBar.vue'
+import IosChip from './components/IosChip.vue'
+import IosProgressBar from './components/IosProgressBar.vue'
+import IosPagination from './components/IosPagination.vue'
+import IosIcon from './components/IosIcon.vue'
+import IosEmptyState from './components/IosEmptyState.vue'
+import IosErrorView from './components/IosErrorView.vue'
+import IosActionBar from './components/IosActionBar.vue'
+import IosFloatingActionButton from './components/IosFloatingActionButton.vue'
+import IosToast from './components/IosToast.vue'
+import IosTableView from './components/IosTableView.vue'
 import LiquidGlassEffect from './components/LiquidGlassEffect.vue'
+import { useToast } from './composables/useToast.js'
 
-const isDark = ref(false)
+/* ---- Theme ---------------------------------------------------------------- */
+function getInitialDark() {
+  const el = document.documentElement
+  const theme = el.getAttribute('data-theme')
+  if (theme === 'dark') return true
+  if (theme === 'light') return false
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false
+}
+
+const isDark = ref(getInitialDark())
+
 function toggleTheme() {
   isDark.value = !isDark.value
   document.documentElement.setAttribute('data-theme', isDark.value ? 'dark' : 'light')
 }
 
+/* ---- Scroll --------------------------------------------------------------- */
 const scrollY = ref(0)
 const scrollRef = ref(null)
-function onScroll(e) { scrollY.value = e.target.scrollTop }
+function onScroll(e) {
+  scrollY.value = e.target.scrollTop
+}
 
+const scrollProgress = computed(() => {
+  const el = scrollRef.value
+  if (!el) return 0
+  const maxScroll = el.scrollHeight - el.clientHeight
+  return maxScroll > 0 ? Math.round((el.scrollTop / maxScroll) * 100) : 0
+})
+
+/* ---- Tab Navigation ------------------------------------------------------ */
+const tabItems = [
+  { id: 'preview',     label: 'Preview',     iconName: 'home' },
+  { id: 'controls',    label: 'Controls',    iconName: 'power' },
+  { id: 'navigation',  label: 'Navigation',  iconName: 'planet' },
+  { id: 'more',        label: 'More',        iconName: 'application-menu' },
+]
+const activeTab = ref('preview')
+
+/* ---- Preview data -------------------------------------------------------- */
 const materials = [
   { label: 'Chrome', class: 'material-chrome' },
   { label: 'Thick', class: 'material-thick' },
@@ -253,18 +404,77 @@ const typeStyles = [
   { name: 'Caption 2', class: 'text-caption2', label: 'Caption 2', size: '11px' },
 ]
 
+const iconNames = [
+  /* Navigation & Actions */
+  'home', 'back', 'share', 'up', 'down', 'application-menu',
+  'search', 'check', 'close', 'refresh', 'download',
+  /* Content & Media */
+  'comment', 'comments', 'message-one', 'message-success',
+  'message-unread', 'message-emoji', 'music', 'camera',
+  'tips-one', 'info', 'attention', 'caution',
+  /* Objects */
+  'plus', 'minus', 'delete', 'pencil', 'editor', 'copy',
+  'power', 'logout', 'inspection', 'setting-one', 'lock', 'unlock',
+  'time', 'hourglass-null',
+  /* Devices & Network */
+  'iphone', 'apple', 'devices', 'aviation', 'wifi', 'close-wifi',
+  'bluetooth', 'turn-off-bluetooth',
+  /* People & Social */
+  'user', 'like', 'planet',
+  /* Utilities */
+  'map-draw', 'adobe-photoshop',
+  /* Theme */
+  'sun-one', 'moon',
+]
+
+/* ---- Controls data ------------------------------------------------------- */
 const buttonVariants = ['filled', 'gray', 'tinted', 'plain', 'liquid-glass']
 
+const chipData = [
+  { label: 'Swift' },
+  { label: 'UIKit' },
+  { label: 'SwiftUI' },
+  { label: 'Metal' },
+  { label: 'ARKit' },
+]
+const activeChip = ref(0)
+
 const segIndex = ref(0)
-const glassBar1 = ref(0)
-const glassBar2 = ref(1)
-const glassBar3 = ref(0)
 const toggle1 = ref(true)
 const toggle2 = ref(false)
 const toggle3 = ref(true)
 const sliderVal = ref(65)
 const textVal = ref('')
 const searchVal = ref('')
+
+/* ---- Navigation data ----------------------------------------------------- */
+const glassBar1 = ref(0)
+const glassBar2 = ref(1)
+const glassBar3 = ref(0)
+
+const tableItems = [
+  { id: 'airdrop', label: 'AirDrop', iconName: 'aviation' },
+  { id: 'shareplay', label: 'SharePlay', iconName: 'share' },
+  { id: 'standby', label: 'StandBy', iconName: 'hourglass-null' },
+  { id: 'vpn', label: 'VPN & Device Management', subtitle: 'Not Connected', iconName: 'lock' },
+]
+function onTableSelect(id) {
+  console.log('Table item selected:', id)
+}
+
+const actionItems = [
+  { id: 'edit', iconName: 'pencil', label: 'Edit' },
+  { id: 'duplicate', iconName: 'copy', label: 'Duplicate' },
+  { id: 'share', iconName: 'share', label: 'Share' },
+  { id: 'delete', iconName: 'delete', label: 'Delete' },
+]
+function onActionSelect(id) {
+  console.log('Action selected:', id)
+}
+
+const currentPage = ref(1)
+
+/* ---- More tab data ------------------------------------------------------- */
 const alertOpen = ref(false)
 const sheetOpen = ref(false)
 
@@ -273,13 +483,22 @@ const alertActions = [
   { label: 'Enter Passcode', style: 'default', onclick: () => {} },
 ]
 
-const tabItems = [
-  { id: 'home', label: 'Preview', icon: '􀎞' },
-  { id: 'tokens', label: 'Tokens', icon: '􀈂' },
-  { id: 'components', label: 'Components', icon: '􀁷' },
-  { id: 'settings', label: 'Settings', icon: '􀍟' },
-]
-const activeTab = ref('home')
+const { addToast } = useToast()
+function showToast(type) {
+  const messages = {
+    success: 'Operation completed successfully.',
+    error: 'An error occurred. Please try again.',
+    warning: 'This action cannot be undone.',
+    info: 'Here is some useful information.',
+  }
+  addToast(messages[type] || 'Toast notification', type, 3000)
+}
+
+const fabExpanded = ref(false)
+function onFabAction(label) {
+  fabExpanded.value = false
+  addToast(`${label} action triggered`, 'info')
+}
 </script>
 
 <style>
@@ -321,7 +540,7 @@ body {
 .text-secondary { color: var(--label-secondary); }
 .text-tertiary { color: var(--label-tertiary); }
 
-/* ===== Background Orbs (rich gradient for liquid glass to distort) ===== */
+/* ===== Background Orbs ===== */
 .bg-layer {
   position: fixed;
   inset: 0;
@@ -382,7 +601,7 @@ body {
   height: 100vh;
 }
 
-/* ===== Status Bar / Toolbar ===== */
+/* ===== Status Bar ===== */
 .status-bar {
   display: flex;
   align-items: center;
@@ -417,11 +636,6 @@ body {
   padding: 32px 48px;
   border-radius: 28px;
 }
-.hero-icon {
-  font-size: 40px;
-  margin-bottom: 4px;
-}
-
 /* ===== Sections ===== */
 .section { padding: 0 12px 12px; }
 .section-label { padding: 0 8px 8px; }
@@ -497,13 +711,25 @@ body {
   gap: 2px;
 }
 
-/* ===== Separator (inner-card) ===== */
+/* ===== Icon Grid ===== */
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 12px;
+}
+.icon-demo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 4px;
+  text-align: center;
+}
+
+/* ===== Separator ===== */
 .separator { height: 0.5px; background: var(--separator); margin: 0; }
 
-/* ===== Row Icon ===== */
-.row-icon { font-size: 20px; }
-
-/* ===== Tab Bar Custom ===== */
+/* ===== Tab Bar ===== */
 .tabbar-custom {
   display: flex;
   align-items: flex-start;
@@ -530,7 +756,6 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 .tab-item-custom.active { color: var(--color-blue); }
-.tab-icon { font-size: 22px; line-height: 1; }
 
 .bottom-spacer { height: 60px; }
 </style>

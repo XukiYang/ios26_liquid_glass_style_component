@@ -3,20 +3,7 @@
     <!-- Icon area -->
     <div class="ios-empty-state-icon">
       <slot name="icon">
-        <svg
-          v-if="icon"
-          class="ios-empty-state-icon-svg"
-          width="48"
-          height="48"
-          viewBox="0 0 48 48"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M24 8C15.163 8 8 15.163 8 24s7.163 16 16 16 16-7.163 16-16S32.837 8 24 8zm0 29.333c-7.364 0-13.333-5.97-13.333-13.333S16.636 10.667 24 10.667 37.333 16.636 37.333 24 31.364 37.333 24 37.333zm0-20a2 2 0 00-2 2v8a2 2 0 004 0v-8a2 2 0 00-2-2zm0 12a2 2 0 100 4 2 2 0 000-4z"
-            fill="currentColor"
-          />
-        </svg>
+        <IosIcon v-if="icon" :name="icon" size="48" />
       </slot>
     </div>
 
@@ -44,6 +31,8 @@
 </template>
 
 <script setup>
+import IosIcon from './IosIcon.vue'
+
 /**
  * IosEmptyState — Centered empty state placeholder with icon, title, description, and action button.
  *
@@ -82,11 +71,6 @@ defineEmits(['action'])
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.ios-empty-state-icon-svg {
-  color: var(--label-secondary);
-  display: block;
 }
 
 .ios-empty-state-content {

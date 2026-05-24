@@ -10,12 +10,6 @@
         :value="modelValue"
         @input="onInput"
       />
-      <button
-        v-if="clearable && modelValue"
-        class="ios-textfield-clear"
-        @click="onClear"
-        aria-label="Clear"
-      >&times;</button>
     </div>
   </div>
 </template>
@@ -27,7 +21,6 @@ const props = defineProps({
   placeholder: { type: String, default: '' },
   type: { type: String, default: 'text' },
   disabled: Boolean,
-  clearable: Boolean,
 })
 
 const emit = defineEmits(['update:modelValue', 'input'])
@@ -38,10 +31,6 @@ function onInput(e) {
   emit('input', val)
 }
 
-function onClear() {
-  emit('update:modelValue', '')
-  emit('input', '')
-}
 </script>
 
 <style scoped>
@@ -63,15 +52,6 @@ function onClear() {
   color: var(--label-primary);
   font-family: var(--font-family);
   font-size: var(--text-body);
-}
-.ios-textfield-clear {
-  background: none;
-  border: none;
-  color: var(--label-tertiary);
-  font-size: var(--text-body);
-  cursor: pointer;
-  padding: 0;
-  line-height: 1;
 }
 .ios-textfield-label {
   font-family: var(--font-family);

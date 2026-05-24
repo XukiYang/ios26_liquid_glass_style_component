@@ -28,8 +28,9 @@
         @keydown.space.prevent="onSelect(item)"
       >
         <!-- Leading: Icon -->
-        <div v-if="item.icon" class="ios-table-view-leading">
-          <span class="ios-table-view-icon">{{ item.icon }}</span>
+        <div v-if="item.icon || item.iconName" class="ios-table-view-leading">
+          <IosIcon v-if="item.iconName" :name="item.iconName" size="20" stroke="var(--color-blue)" />
+          <span v-else class="ios-table-view-icon">{{ item.icon }}</span>
         </div>
 
         <!-- Middle: Label + Subtitle -->
@@ -51,6 +52,8 @@
 </template>
 
 <script setup>
+import IosIcon from './IosIcon.vue'
+
 /**
  * IosTableView — A grouped list / table view component styled after iOS.
  *

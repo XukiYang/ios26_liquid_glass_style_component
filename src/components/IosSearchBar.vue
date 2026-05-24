@@ -1,7 +1,7 @@
 <template>
   <div class="ios-searchbar" :class="{ 'ios-searchbar-focused': focused }">
     <div class="ios-searchbar-field">
-      <span class="ios-searchbar-icon">🔍</span>
+      <IosIcon name="search" size="16" />
       <input
         class="ios-searchbar-input"
         type="search"
@@ -14,15 +14,18 @@
       />
     </div>
     <button
-      v-if="focused"
+      v-if="focused || modelValue"
       class="ios-searchbar-cancel"
       @mousedown.prevent="onCancel"
-    >Cancel</button>
+    >
+      <IosIcon name="close" size="18" />
+    </button>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import IosIcon from './IosIcon.vue'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
@@ -70,7 +73,6 @@ function onCancel() {
   border-radius: var(--radius-lg);
   padding: 0 var(--space-3);
 }
-.ios-searchbar-icon { font-size: var(--text-callout); }
 .ios-searchbar-input {
   flex: 1;
   border: none;

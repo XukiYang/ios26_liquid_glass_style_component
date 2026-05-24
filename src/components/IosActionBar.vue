@@ -13,7 +13,10 @@
       @click="select(item.id)"
       @keydown.enter="select(item.id)"
     >
-      <span class="ios-action-bar-icon" :class="{ 'ios-action-bar-item--active': isActive(item.id) }">{{ item.icon }}</span>
+      <span class="ios-action-bar-icon" :class="{ 'ios-action-bar-item--active': isActive(item.id) }">
+        <IosIcon v-if="item.iconName" :name="item.iconName" size="20" stroke="currentColor" />
+        <span v-else>{{ item.icon }}</span>
+      </span>
       <span class="ios-action-bar-label" :class="{ 'ios-action-bar-item--active': isActive(item.id) }">{{ item.label }}</span>
     </div>
   </div>
@@ -33,6 +36,8 @@
  * @emits update:modelValue - Emits the clicked item id for v-model binding.
  * @emits change - Emits the clicked item id on user interaction.
  */
+import IosIcon from './IosIcon.vue'
+
 const props = defineProps({
   items: {
     type: Array,
