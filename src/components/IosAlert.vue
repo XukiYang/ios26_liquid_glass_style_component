@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
     <div v-if="modelValue" class="ios-alert-backdrop" @click="close">
-      <div class="ios-alert material-thick" role="alertdialog" :aria-label="title" @click.stop>
+      <div class="ios-alert" role="alertdialog" :aria-label="title" @click.stop>
         <div class="ios-alert-content">
           <h2>{{ title }}</h2>
           <p v-if="message">{{ message }}</p>
@@ -57,6 +57,13 @@ function onAction(action) {
   border-radius: var(--radius-xl);
   padding: var(--space-6);
   text-align: center;
+  background: rgba(255, 255, 255, 0.84);
+  backdrop-filter: blur(100px);
+  -webkit-backdrop-filter: blur(100px);
+}
+
+[data-theme="dark"] .ios-alert {
+  background: rgba(0, 0, 0, 0.84);
 }
 .ios-alert-content { margin-bottom: var(--space-4); }
 .ios-alert-content h2 { margin: 0 0 var(--space-1); }

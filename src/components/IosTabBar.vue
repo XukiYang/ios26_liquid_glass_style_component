@@ -1,5 +1,5 @@
 <template>
-  <nav class="ios-tabbar liquid-glass-large">
+  <nav class="ios-tabbar">
     <button
       v-for="item in items"
       :key="item.id"
@@ -32,10 +32,14 @@ function onSelect(id) {
   display: flex;
   align-items: flex-start;
   justify-content: space-around;
+  height: var(--tabbar-height);
   padding: var(--space-1) 0 var(--space-2);
   position: sticky;
   bottom: 0;
   z-index: 100;
+  background: rgba(250, 250, 250, 0.7);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
 }
 .ios-tabbar-item {
   display: flex;
@@ -56,5 +60,9 @@ function onSelect(id) {
   font-size: var(--text-caption2);
   line-height: var(--lh-caption2);
   letter-spacing: var(--ls-caption2);
+}
+
+[data-theme="dark"] .ios-tabbar {
+  background: rgba(0, 0, 0, 0.8);
 }
 </style>

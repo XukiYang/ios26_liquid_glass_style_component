@@ -1,5 +1,5 @@
 <template>
-  <header class="ios-toolbar liquid-glass-large" :class="{ 'ios-collapsed': collapsed }">
+  <header class="ios-toolbar" :class="{ 'ios-collapsed': collapsed }">
     <div class="ios-toolbar-leading">
       <slot name="leading" />
     </div>
@@ -35,6 +35,9 @@ const collapsed = computed(() => props.scrollY > 44)
   position: sticky;
   top: 0;
   z-index: 100;
+  background: rgba(250, 250, 250, 0.7);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
 }
 .ios-toolbar-title {
   font-family: var(--font-family);
@@ -56,5 +59,9 @@ const collapsed = computed(() => props.scrollY > 44)
   line-height: var(--lh-large-title);
   letter-spacing: var(--ls-large-title);
   font-weight: var(--weight-bold);
+}
+
+[data-theme="dark"] .ios-toolbar {
+  background: rgba(0, 0, 0, 0.8);
 }
 </style>

@@ -18,11 +18,14 @@
           {{ isDark ? 'Light' : 'Dark' }}
         </IosButton>
       </div>
-      <div class="toolbar-title text-headline emphasized">iOS 26 — Liquid Glass</div>
+      <div class="toolbar-title text-headline emphasized">iOS 26 — Vue Components</div>
       <div class="toolbar-trailing" />
     </header>
 
     <main class="scroll-area" @scroll="onScroll" ref="scrollRef">
+
+      <Transition :name="'tab-slide-' + slideDir" mode="out-in">
+        <div :key="'tab-' + activeTab" class="tab-content">
 
       <!-- ============ Preview Tab: Visual Foundation ============ -->
       <template v-if="activeTab === 'preview'">
@@ -121,7 +124,7 @@
         <section class="section">
           <h2 class="section-label text-footnote emphasized text-secondary">Inputs</h2>
           <div class="glass-card liquid-glass-medium">
-            <IosTextField v-model="textVal" label="Name" placeholder="Enter your name" />
+            <IosTextField v-model="textVal" label="Name" placeholder="Enter your name" leading-icon="user" clearable />
             <div style="height:12px" />
             <IosSearchBar v-model="searchVal" placeholder="Search..." />
           </div>
@@ -142,11 +145,11 @@
       <!-- ============ Navigation Tab: Navigation & Lists ============ -->
       <template v-if="activeTab === 'navigation'">
         <section class="section" style="padding-top:8px;">
-          <h2 class="section-label text-footnote emphasized text-secondary">Liquid Glass Bar</h2>
+          <h2 class="section-label text-footnote emphasized text-secondary">Capsule Group</h2>
           <div class="glass-card liquid-glass-medium" style="display:flex;flex-direction:column;gap:12px;">
-            <IosLiquidGlassBar v-model="glassBar1" :options="['For You', 'Browse', 'Radio', 'Library']" />
-            <IosLiquidGlassBar v-model="glassBar2" :options="['Day', 'Week', 'Month']" />
-            <IosLiquidGlassBar v-model="glassBar3" :options="['Music', 'Podcasts']" />
+            <IosCapsuleGroup v-model="capsule1" :options="['For You', 'Browse', 'Radio', 'Library']" />
+            <IosCapsuleGroup v-model="capsule2" :options="['Day', 'Week', 'Month']" />
+            <IosCapsuleGroup v-model="capsule3" :options="['Music', 'Podcasts']" />
           </div>
         </section>
 
@@ -256,6 +259,9 @@
         </section>
       </template>
 
+        </div>
+      </Transition>
+
       <div class="bottom-spacer" />
     </main>
 
@@ -264,7 +270,7 @@
       <button v-for="t in tabItems" :key="t.id"
         class="tab-item-custom"
         :class="{ active: activeTab === t.id }"
-        @click="activeTab = t.id">
+        @click="switchTab(t.id)">
         <IosIcon :name="t.iconName" size="22" />
         <span class="text-caption2">{{ t.label }}</span>
       </button>
@@ -295,7 +301,6 @@
     </template>
   </IosFloatingActionButton>
 
-  <LiquidGlassEffect />
 </template>
 
 <script setup>
@@ -310,7 +315,7 @@ import IosListRow from './components/IosListRow.vue'
 import IosListSection from './components/IosListSection.vue'
 import IosAlert from './components/IosAlert.vue'
 import IosSheet from './components/IosSheet.vue'
-import IosLiquidGlassBar from './components/IosLiquidGlassBar.vue'
+import IosCapsuleGroup from './components/IosCapsuleGroup.vue'
 import IosChip from './components/IosChip.vue'
 import IosProgressBar from './components/IosProgressBar.vue'
 import IosPagination from './components/IosPagination.vue'
@@ -321,23 +326,23 @@ import IosActionBar from './components/IosActionBar.vue'
 import IosFloatingActionButton from './components/IosFloatingActionButton.vue'
 import IosToast from './components/IosToast.vue'
 import IosTableView from './components/IosTableView.vue'
-import LiquidGlassEffect from './components/LiquidGlassEffect.vue'
 import { useToast } from './composables/useToast.js'
 
 /* ---- Theme ---------------------------------------------------------------- */
 function getInitialDark() {
-  const el = document.documentElement
-  const theme = el.getAttribute('data-theme')
-  if (theme === 'dark') return true
-  if (theme === 'light') return false
-  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false
+  const stored = localStorage.getItem('theme')
+  if (stored === 'dark') return true
+  if (stored === 'light') return false
+  return document.documentElement.getAttribute('data-theme') === 'dark'
 }
 
 const isDark = ref(getInitialDark())
 
 function toggleTheme() {
   isDark.value = !isDark.value
-  document.documentElement.setAttribute('data-theme', isDark.value ? 'dark' : 'light')
+  const theme = isDark.value ? 'dark' : 'light'
+  document.documentElement.setAttribute('data-theme', theme)
+  localStorage.setItem('theme', theme)
 }
 
 /* ---- Scroll --------------------------------------------------------------- */
@@ -362,6 +367,15 @@ const tabItems = [
   { id: 'more',        label: 'More',        iconName: 'application-menu' },
 ]
 const activeTab = ref('preview')
+const slideDir = ref('left')
+const prevIdx = ref(0)
+
+function switchTab(id) {
+  const nextIdx = tabItems.findIndex(t => t.id === id)
+  slideDir.value = nextIdx >= prevIdx.value ? 'left' : 'right'
+  prevIdx.value = nextIdx
+  activeTab.value = id
+}
 
 /* ---- Preview data -------------------------------------------------------- */
 const materials = [
@@ -370,9 +384,6 @@ const materials = [
   { label: 'Regular', class: 'material-regular' },
   { label: 'Thin', class: 'material-thin' },
   { label: 'Ultra Thin', class: 'material-ultrathin' },
-  { label: 'Glass Lg', class: 'liquid-glass-large' },
-  { label: 'Glass Md', class: 'liquid-glass-medium' },
-  { label: 'Glass Sm', class: 'liquid-glass-small' },
 ]
 
 const systemColors = [
@@ -448,9 +459,9 @@ const textVal = ref('')
 const searchVal = ref('')
 
 /* ---- Navigation data ----------------------------------------------------- */
-const glassBar1 = ref(0)
-const glassBar2 = ref(1)
-const glassBar3 = ref(0)
+const capsule1 = ref(0)
+const capsule2 = ref(1)
+const capsule3 = ref(0)
 
 const tableItems = [
   { id: 'airdrop', label: 'AirDrop', iconName: 'aviation' },
@@ -758,4 +769,99 @@ body {
 .tab-item-custom.active { color: var(--color-blue); }
 
 .bottom-spacer { height: 60px; }
+
+/* ---- Tab Slide Transition ---- */
+.tab-slide-left-enter-active,
+.tab-slide-left-leave-active,
+.tab-slide-right-enter-active,
+.tab-slide-right-leave-active {
+  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.25s ease;
+}
+
+.tab-slide-left-enter-from {
+  transform: translateX(40px);
+  opacity: 0;
+}
+.tab-slide-left-leave-to {
+  transform: translateX(-40px);
+  opacity: 0;
+}
+
+.tab-slide-right-enter-from {
+  transform: translateX(-40px);
+  opacity: 0;
+}
+.tab-slide-right-leave-to {
+  transform: translateX(40px);
+  opacity: 0;
+}
+
+.tab-content {
+  will-change: transform, opacity;
+}
+
+/* ===== iOS Material Replacements (was liquid-glass / materials.css) ===== */
+.liquid-glass-large {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 0.5px solid rgba(0, 0, 0, 0.06);
+}
+.liquid-glass-medium {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid rgba(0, 0, 0, 0.05);
+}
+.liquid-glass-small {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 0.5px solid rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] .liquid-glass-large {
+  background: rgba(30, 30, 30, 0.75);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+[data-theme="dark"] .liquid-glass-medium {
+  background: rgba(30, 30, 30, 0.65);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .liquid-glass-small {
+  background: rgba(30, 30, 30, 0.55);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.material-chip.material-chrome {
+  background: linear-gradient(135deg, rgba(200,200,210,0.7), rgba(160,160,180,0.5));
+}
+.material-chip.material-thick {
+  background: rgba(150,150,170,0.6);
+}
+.material-chip.material-regular {
+  background: rgba(180,180,200,0.4);
+}
+.material-chip.material-thin {
+  background: rgba(200,200,220,0.25);
+}
+.material-chip.material-ultrathin {
+  background: rgba(220,220,240,0.12);
+}
+
+[data-theme="dark"] .material-chip.material-chrome {
+  background: linear-gradient(135deg, rgba(80,80,100,0.7), rgba(60,60,75,0.6));
+}
+[data-theme="dark"] .material-chip.material-thick {
+  background: rgba(70,70,85,0.7);
+}
+[data-theme="dark"] .material-chip.material-regular {
+  background: rgba(65,65,80,0.5);
+}
+[data-theme="dark"] .material-chip.material-thin {
+  background: rgba(60,60,75,0.35);
+}
+[data-theme="dark"] .material-chip.material-ultrathin {
+  background: rgba(55,55,70,0.2);
+}
 </style>

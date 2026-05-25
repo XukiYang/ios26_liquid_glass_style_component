@@ -43,25 +43,25 @@ function onToggle() {
   position: relative;
   width: 51px;
   height: 31px;
-  border-radius: var(--radius-2xl);
+  border-radius: 15.5px;
   border: none;
-  background-color: var(--fill-primary);
+  background-color: var(--fill-secondary);
   cursor: pointer;
   flex-shrink: 0;
-  transition: background-color 0.2s;
+  transition: background-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1.0);
   padding: 0;
 }
 .ios-toggle.ios-checked { background-color: var(--color-green); }
 .ios-toggle-thumb {
   position: absolute;
-  top: var(--radius-xs);
-  left: var(--radius-xs);
+  top: 2px;
+  left: 2px;
   width: 27px;
   height: 27px;
   border-radius: 50%;
   background-color: var(--white);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1.0);
 }
 .ios-toggle.ios-checked .ios-toggle-thumb { transform: translateX(20px); }
 .ios-toggle-label {

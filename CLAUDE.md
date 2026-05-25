@@ -12,10 +12,11 @@ npm run preview # Preview production build
 
 ## Commit Conventions
 
-- Use imperative, present-tense commit messages ("Add X", not "Added X")
-- Keep subject under 70 characters
-- Focus the description on *why*, not *what* (the diff shows what)
-- No emoji in commit messages
+- 使用中文编写提交信息
+- 使用祈使句、现在时（"添加X功能"，而非"添加了X功能"）
+- 标题控制在 70 字符以内
+- 描述侧重说明*为什么*这么做，而不是*做了什么*（diff 已展示做了什么）
+- 不使用 emoji
 
 ## Architecture
 
@@ -26,14 +27,10 @@ src/
   main.js                        — App entry
   App.vue                        — Preview shell demo page
   assets/styles/
-    tokens.css                   — Design tokens (colors, spacing, typography, glass vars) — the ONLY mandatory global CSS
-    materials.css                — Optional utility classes for glass/material effects (not used by components)
+    tokens.css                   — Design tokens (colors, spacing, typography) — the ONLY mandatory global CSS
   components/
     IosXxx*.vue                  — Each component fully self-contained with <style scoped>
   composables/
-    usePillLiquidGlass.js        — Per-instance canvas SDF + SVG feDisplacementMap filter
-    useLiquidGlass.js            — Core liquid glass shader (standalone, not Vue-specific)
-    useLiquidGlassFilter.js      — Global turbulence-based filter singleton
     useToast.js                  — Toast notification composable (singleton, shared state)
     useConfirm.js                — Promise-based confirm dialog composable (pairs with IosAlert)
   assets/font/
@@ -41,20 +38,33 @@ src/
     HarmonyOS_Sans/              — HarmonyOS TTF font files
 ```
 
-### Components added by XukiBlogs integration
+### Components
 
 | Component | Description |
 |-----------|-------------|
-| `IosIcon` | SVG icon system, 15 built-in icons (home/user/like/share/up/down/comment/back/check/search/close/warning/planet/hourglass-null/application-menu) |
-| `IosToast` | Toast notification with success/error/warning/info types, auto-dismiss, slide animation |
-| `IosErrorView` | Error boundary display, retry/home buttons |
-| `IosProgressBar` | Horizontal progress bar, fixed position, accent glow |
-| `IosFloatingActionButton` | Draggable FAB with expand/collapse action panel, pointer events |
-| `IosActionBar` | Vertical card button group (icon + label rows) |
-| `IosTableView` | Inset grouped list with sections, header/footer, disclosure indicators, level indentation |
+| `IosButton` | Filled/gray/tinted/plain/liquid-glass button variants |
+| `IosSegmentedControl` | Segmented control with equal-width segments, v-model |
+| `IosCapsuleGroup` | Pill-shaped capsule button group, animated pill indicator |
 | `IosChip` | Pill-shaped filter/tag chip, active/hover/disabled states |
-| `IosPagination` | Page navigation with page numbers and ellipsis |
+| `IosToggle` | Toggle switch with v-model |
+| `IosSlider` | Horizontal slider with leading/trailing slots |
+| `IosTextField` | Text input with label, icon, clearable |
+| `IosSearchBar` | Search input field |
+| `IosIcon` | SVG icon system, 15+ built-in icons |
+| `IosProgressBar` | Horizontal progress bar, fixed position, accent glow |
+| `IosToast` | Toast notification with types, auto-dismiss, slide animation |
+| `IosErrorView` | Error boundary display, retry/home buttons |
 | `IosEmptyState` | Centered empty state placeholder with icon/title/description/action |
+| `IosFloatingActionButton` | Draggable FAB with expand/collapse action panel |
+| `IosActionBar` | Vertical card button group (icon + label rows) |
+| `IosListRow` | List row with leading/trailing slots, disclosure, separator |
+| `IosListSection` | Grouped list section wrapper |
+| `IosTableView` | Inset grouped list with sections, header/footer, disclosure indicators |
+| `IosPagination` | Page navigation with page numbers and ellipsis |
+| `IosAlert` | Modal alert dialog, action buttons |
+| `IosSheet` | Bottom sheet with detents |
+| `IosTabBar` | Bottom tab bar |
+| `IosToolbar` | Top toolbar with collapse support |
 
 ### Design decisions
 
@@ -70,19 +80,11 @@ src/
 | **Composables** | Unified `useXxx()` factory function pattern |
 | **Documentation** | JSDoc on `defineProps`/`defineEmits` for IDE hints; App.vue is a visual demo only |
 
-### IosLiquidGlassBar specifics
+### IosCapsuleGroup specifics
 
-- Track: full capsule, 40px, glass background (`backdrop-filter: blur(40px)`)
-- Pill: absolutely positioned, 36px tall, vertically centred (2px top/bottom gap)
-- Slide animation: CSS `transition` on `left`/`width`, `cubic-bezier(0.25, 0.1, 0.25, 1)`, 0.35s
-- Liquid glass: `usePillLiquidGlass` composable, canvas SDF convex lens + `feDisplacementMap`, filter sized to exact pill px dimensions
+- Track: full capsule, 40px height, `background: var(--gray-4)`, subtle shadow
+- Pill: absolutely positioned, 36px tall, white background with shadow, transition on transform/width
+- Slide animation: CSS transition `cubic-bezier(0.25, 0.1, 0.25, 1)`, 0.3s
+- ResizeObserver for responsive pill repositioning on container resize
 - v-model compatible (`update:modelValue` + `change` events)
 - Accepts: string array or `{id, label}[]`
-
-### Key pattern — liquid glass displacement
-
-1. Generate displacement map via canvas `ImageData` using SDF for shape
-2. Normalise + encode as RGBA (R=horizontal, G=vertical displacement)
-3. Canvas data URL → SVG `<feImage>` → `<feDisplacementMap>` filter
-4. Apply `filter: url(#id)` + `backdrop-filter: blur()` + semi-transparent bg
-5. Filter sized exactly to element's px dimensions (`userSpaceOnUse`) to keep displacement centre aligned

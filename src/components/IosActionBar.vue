@@ -64,16 +64,13 @@ function select(id) {
 </script>
 
 <style scoped>
-/* ---- Card container (Liquid Glass) ---- */
+/* ---- Card container (width matches TableView content card) ---- */
 .ios-action-bar {
   display: flex;
   flex-direction: column;
-  border-radius: var(--glass-medium-radius);
-  background: var(--fill-secondary);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border: var(--border-hairline) solid var(--separator);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  margin: 0 var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-grouped-secondary);
   overflow: hidden;
 }
 
@@ -87,30 +84,29 @@ function select(id) {
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
-  transition: background 0.2s ease, transform 0.12s ease;
+  transition: background-color 0.15s ease, transform 0.12s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
 .ios-action-bar-item:active {
-  transform: scale(0.97);
+  background-color: var(--fill-secondary);
+  transform: scale(0.98);
 }
 
 .ios-action-bar-item:hover {
-  background: var(--fill-tertiary);
+  background-color: var(--fill-tertiary);
 }
 
 /* ---- Separator ---- */
 .ios-action-bar-item.ios-has-separator {
-  border-bottom: var(--border-hairline) solid var(--separator);
+  border-bottom: var(--separator-height) solid var(--separator);
 }
 
-/* ---- Icon (emoji placeholder) ---- */
+/* ---- Icon ---- */
 .ios-action-bar-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--space-6);
-  height: var(--space-6);
   font-size: var(--text-callout);
   line-height: 1;
   flex-shrink: 0;
@@ -126,9 +122,9 @@ function select(id) {
 .ios-action-bar-label {
   flex: 1;
   font-family: var(--font-family);
-  font-size: var(--text-subheadline);
-  line-height: var(--lh-subheadline);
-  letter-spacing: var(--ls-subheadline);
+  font-size: var(--text-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
   font-weight: var(--weight-regular);
   color: var(--label-primary);
   transition: color 0.2s ease;

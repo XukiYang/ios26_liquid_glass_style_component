@@ -2,7 +2,7 @@
   <Teleport to="body">
     <div v-if="modelValue" class="ios-sheet-backdrop" @click="close">
       <div
-        class="ios-sheet material-thick"
+        class="ios-sheet"
         :class="[detentClass]"
         :style="{ transform: `translateY(${offsetY}px)` }"
         @click.stop
@@ -75,16 +75,19 @@ function onDragEnd() {
 }
 .ios-sheet {
   width: 100%;
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   padding: var(--space-2) var(--space-4) var(--space-8);
   max-height: 85vh;
   overflow-y: auto;
+  background: rgba(255, 255, 255, 0.84);
+  backdrop-filter: blur(100px);
+  -webkit-backdrop-filter: blur(100px);
 }
 .ios-sheet-grabber {
   width: 36px;
   height: 5px;
   border-radius: 3px;
-  background-color: var(--label-quaternary);
+  background-color: var(--gray-3);
   margin: var(--space-2) auto var(--space-3);
 }
 .ios-sheet-header { margin-bottom: var(--space-4); }
@@ -96,6 +99,10 @@ function onDragEnd() {
   font-weight: var(--weight-semibold);
   margin: 0;
 }
+[data-theme="dark"] .ios-sheet {
+  background: rgba(0, 0, 0, 0.84);
+}
+
 .ios-detent-medium .ios-sheet-content { min-height: 40vh; }
 .ios-detent-large .ios-sheet-content { min-height: 70vh; }
 .ios-detent-full .ios-sheet-content { min-height: 90vh; }

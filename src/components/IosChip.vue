@@ -55,9 +55,8 @@ defineProps({
 
 /* ---- Active ---- */
 .ios-chip-active {
-  background-color: var(--color-blue);
-  color: var(--white);
-  box-shadow: 0 0 12px color-mix(in srgb, var(--color-blue) 30%, transparent);
+  background-color: color-mix(in srgb, var(--color-blue) 15%, transparent);
+  color: var(--color-blue);
 }
 
 /* ---- Disabled ---- */

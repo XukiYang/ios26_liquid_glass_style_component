@@ -69,9 +69,15 @@ function onCancel() {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  background-color: var(--fill-primary);
+  background-color: var(--fill-tertiary);
   border-radius: var(--radius-lg);
   padding: 0 var(--space-3);
+  box-shadow: inset 0 0 0 0 transparent;
+  transition: box-shadow 0.25s ease;
+}
+
+.ios-searchbar-focused .ios-searchbar-field {
+  box-shadow: inset 0 0 0 1.5px var(--color-blue);
 }
 .ios-searchbar-input {
   flex: 1;

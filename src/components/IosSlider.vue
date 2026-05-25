@@ -53,7 +53,7 @@ function onInput(e) {
   appearance: none;
   height: var(--space-1);
   border-radius: var(--radius-xs);
-  background: linear-gradient(to right, var(--color-blue) 0%, var(--color-blue) var(--ios-slider-fill), var(--fill-primary) var(--ios-slider-fill), var(--fill-primary) 100%);
+  background: linear-gradient(to right, var(--color-blue) 0%, var(--color-blue) var(--ios-slider-fill), var(--fill-tertiary) var(--ios-slider-fill), var(--fill-tertiary) 100%);
   outline: none;
 }
 .ios-slider::-webkit-slider-thumb {
@@ -62,7 +62,7 @@ function onInput(e) {
   height: var(--space-7);
   border-radius: 50%;
   background: var(--white);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   border: none;
 }
