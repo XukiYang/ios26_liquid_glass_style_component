@@ -80,6 +80,7 @@ function onSelect(index) {
   transition: color 0.2s ease;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
+  white-space: nowrap;
 }
 
 .ios-segment.ios-segment-active {

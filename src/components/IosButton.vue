@@ -59,6 +59,8 @@ defineEmits(['click'])
 .ios-btn-plain { background-color: transparent; color: var(--color-blue); }
 .ios-btn-plain:active:not(:disabled) { background-color: var(--fill-quaternary); }
 .ios-btn-liquid-glass { background-color: rgba(116, 116, 128, 0.08); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); border-radius: var(--radius-full); color: var(--label-primary); }
+.ios-btn-destructive { background-color: var(--color-red); color: var(--white); }
+.ios-btn-destructive:active:not(:disabled) { opacity: 0.85; }
 
 /* Dark mode overrides */
 [data-theme="dark"] .ios-btn-filled { background-color: #0091ff; }
@@ -66,6 +68,7 @@ defineEmits(['click'])
 [data-theme="dark"] .ios-btn-gray { background-color: rgba(118, 118, 128, 0.18); color: var(--label-primary); }
 [data-theme="dark"] .ios-btn-plain { color: #0091ff; }
 [data-theme="dark"] .ios-btn-liquid-glass { background-color: rgba(118, 118, 128, 0.18); color: var(--label-primary); }
+[data-theme="dark"] .ios-btn-destructive { background-color: #ff453a; color: var(--white); }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
