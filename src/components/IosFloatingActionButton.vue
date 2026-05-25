@@ -25,10 +25,7 @@
       @pointerup="onPointerUp"
     >
       <slot>
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-          <line x1="11" y1="2" x2="11" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-          <line x1="2" y1="11" x2="20" y2="11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
+        <IosIcon name="application-menu" size="22" />
       </slot>
     </button>
   </div>
@@ -36,6 +33,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import IosIcon from './IosIcon.vue'
 
 /**
  * IosFloatingActionButton — Draggable FAB with expandable actions panel.
@@ -194,9 +192,8 @@ watch(
   user-select: none;
 }
 
-/* ---- Drag state ---- */
+/* ---- Drag state — keep visual unchanged ---- */
 .ios-fab.ios-fab-dragging {
-  opacity: 0.9;
   transition: none;
 }
 
@@ -271,9 +268,9 @@ watch(
   transform: scale(0.92);
 }
 
-/* Expanded: rotate the default "+" icon to an "x" */
+/* Expanded state: rotate menu icon */
 .ios-fab-btn-active {
-  transform: rotate(45deg);
+  transform: rotate(90deg);
   background: var(--fill-primary);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
 }

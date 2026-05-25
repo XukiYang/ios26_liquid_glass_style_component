@@ -2,7 +2,7 @@
   <div
     class="ios-progress-bar"
     :class="{ 'ios-progress-bar--fixed': fixed }"
-    :style="{ '--ios-progress-height': height, '--ios-progress-color': color, '--ios-progress-glow': glow, '--ios-progress-z-index': zIndex }"
+    :style="{ '--ios-progress-height': barHeight, '--ios-progress-color': color, '--ios-progress-glow': glow, '--ios-progress-z-index': zIndex }"
   >
     <div class="ios-progress-bar-track">
       <div
@@ -41,6 +41,10 @@ const props = defineProps({
 
 const clampedProgress = computed(() =>
   Math.min(100, Math.max(0, Number(props.progress)))
+)
+
+const barHeight = computed(() =>
+  typeof props.height === 'number' ? props.height + 'px' : props.height
 )
 </script>
 
