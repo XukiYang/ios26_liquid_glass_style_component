@@ -15,6 +15,7 @@
       :aria-selected="activeIndex === i"
       @click="select(i)"
     >
+      <IosIcon v-if="item.iconName" :name="item.iconName" :size="16" />
       <span class="ios-lgb-label">{{ item.label ?? item }}</span>
     </button>
   </div>
@@ -22,6 +23,7 @@
 
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
+import IosIcon from './IosIcon.vue'
 
 const props = defineProps({
   options: { type: Array, required: true },
@@ -134,6 +136,7 @@ onUnmounted(() => resizeObserver?.disconnect())
   font-family: var(--font-family);
   white-space: nowrap;
   transition: color 0.2s ease-out;
+  gap: 4px;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
 }

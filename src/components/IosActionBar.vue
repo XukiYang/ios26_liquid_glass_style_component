@@ -14,7 +14,7 @@
       @keydown.enter="select(item.id)"
     >
       <span class="ios-action-bar-icon" :class="{ 'ios-action-bar-item--active': isActive(item.id) }">
-        <IosIcon v-if="item.iconName" :name="item.iconName" size="20" stroke="currentColor" />
+        <IosIcon v-if="item.iconName" :name="item.iconName" size="20" />
         <span v-else>{{ item.icon }}</span>
       </span>
       <span class="ios-action-bar-label" :class="{ 'ios-action-bar-item--active': isActive(item.id) }">{{ item.label }}</span>
@@ -27,10 +27,10 @@
  * IosActionBar — Vertical action button group card.
  *
  * Renders a list of action rows (like iOS share sheet actions) inside a rounded
- * Liquid Glass card. Each row has an emoji icon on the left and a label on the
- * right. Supports `v-model` for tracking the active item.
+ * Liquid Glass card. Each row has an icon on the left and a label on the right.
+ * Supports `v-model` for tracking the active item.
  *
- * @param {Array<{id: string|number, icon: string, label: string, active?: boolean}>} items - Action items to display.
+ * @param {Array<{id: string|number, icon?: string, iconName?: string, label: string, active?: boolean}>} items - Action items to display. Use `icon` for emoji or `iconName` for an IosIcon (IconPark).
  * @param {string|number} [modelValue] - Currently active item id.
  *
  * @emits update:modelValue - Emits the clicked item id for v-model binding.
