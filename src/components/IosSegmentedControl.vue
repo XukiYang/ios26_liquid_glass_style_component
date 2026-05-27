@@ -1,6 +1,6 @@
 <template>
-  <div class="ios-segmented-control" role="tablist">
-    <div class="ios-segment-indicator" :style="indicatorStyle" />
+  <div ref="controlRef" class="ios-segmented-control" role="tablist">
+    <div ref="indicatorRef" class="ios-segment-indicator" />
     <button
       v-for="(label, i) in segments"
       :key="label"
@@ -25,7 +25,8 @@
  * @event {'update:modelValue'} update:modelValue - Emitted on select (v-model)
  * @event {'change'} change - Emitted on select with index
  */
-import { computed } from 'vue'
+import { ref, watch, onMounted, nextTick } from 'vue'
+import { useGsap } from '../composables/useGsap.js'
 
 const props = defineProps({
   segments: { type: Array, required: true },
@@ -34,13 +35,30 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'change'])
 
-const indicatorStyle = computed(() => {
+const { tween, SPRING, DURATION } = useGsap()
+const indicatorRef = ref(null)
+const controlRef = ref(null)
+
+function moveIndicator(index) {
+  const control = controlRef.value
+  const indicator = indicatorRef.value
+  if (!control || !indicator) return
   const n = props.segments.length
-  return {
-    width: `calc((100% - 4px) / ${n})`,
-    transform: `translateX(calc(${props.modelValue} * 100%))`,
-  }
-})
+  const trackW = control.offsetWidth - 4
+  const segW = trackW / n
+  const x = index * segW
+  const w = segW
+  tween(indicator, {
+    x: x + 2,
+    width: w,
+    duration: DURATION.slow,
+    ease: SPRING.ease,
+  })
+}
+
+watch(() => props.modelValue, (i) => moveIndicator(i))
+
+onMounted(() => nextTick(() => moveIndicator(props.modelValue)))
 
 function onSelect(index) {
   emit('update:modelValue', index)
@@ -66,7 +84,6 @@ function onSelect(index) {
   background: var(--bg-primary);
   border-radius: var(--radius-7);
   box-shadow: var(--shadow-pill);
-  transition: transform var(--duration-slow) var(--ease-spring);
   z-index: 0;
 }
 

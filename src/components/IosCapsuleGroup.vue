@@ -3,7 +3,6 @@
     <div
       ref="pillRef"
       class="ios-capsule-pill"
-      :style="pillStyle"
       aria-hidden="true"
     />
     <button
@@ -24,6 +23,7 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import IosIcon from './IosIcon.vue'
+import { useGsap } from '../composables/useGsap.js'
 
 const props = defineProps({
   options: { type: Array, required: true },
@@ -31,6 +31,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue', 'change'])
+
+const { tween, SPRING, DURATION } = useGsap()
 
 const items = computed(() =>
   props.options.map((o, i) =>
@@ -44,20 +46,13 @@ const activeIndex = ref(props.modelValue)
 watch(() => props.modelValue, (v) => {
   if (v !== activeIndex.value) {
     activeIndex.value = v
-    nextTick(() => measurePill(v))
+    nextTick(() => animatePill(v))
   }
 })
 
 const pillRef = ref(null)
-const pillX = ref(0)
-const pillW = ref(0)
 
-const pillStyle = computed(() => ({
-  transform: `translateX(${pillX.value}px)`,
-  width: pillW.value + 'px',
-}))
-
-function measurePill(index) {
+function animatePill(index, instant = false) {
   const pill = pillRef.value
   if (!pill) return
   const track = pill.parentElement
@@ -66,14 +61,18 @@ function measurePill(index) {
   if (!btn) return
   const tr = track.getBoundingClientRect()
   const br = btn.getBoundingClientRect()
-  pillX.value = br.left - tr.left
-  pillW.value = br.width
+  const x = br.left - tr.left
+  const w = br.width
+  const d = instant ? 0 : DURATION.slow
+  tween(pill, {
+    x, width: w, duration: d, ease: SPRING.ease,
+  })
 }
 
 function select(index) {
   if (index === activeIndex.value) return
   activeIndex.value = index
-  measurePill(index)
+  animatePill(index)
   emit('update:modelValue', index)
   emit('change', index)
 }
@@ -81,10 +80,10 @@ function select(index) {
 let resizeObserver = null
 
 onMounted(() => {
-  nextTick(() => measurePill(activeIndex.value))
+  nextTick(() => animatePill(activeIndex.value, true))
   const track = pillRef.value?.parentElement
   if (track) {
-    resizeObserver = new ResizeObserver(() => measurePill(activeIndex.value))
+    resizeObserver = new ResizeObserver(() => animatePill(activeIndex.value, true))
     resizeObserver.observe(track)
   }
 })
@@ -113,8 +112,6 @@ onUnmounted(() => resizeObserver?.disconnect())
   z-index: 0;
   will-change: transform;
   box-shadow: var(--shadow-pill);
-  transition: transform var(--duration-slow) var(--ease-spring),
-              width var(--duration-slow) var(--ease-spring);
 }
 
 .ios-capsule-option {

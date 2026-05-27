@@ -1,27 +1,26 @@
 <template>
   <Teleport to="body">
-    <Transition name="ios-sheet">
-      <div v-if="modelValue" class="ios-sheet-backdrop" @click="close">
-        <div
-          class="ios-sheet"
-          :class="[detentClass]"
-          :style="{ marginTop: offsetY + 'px' }"
-          @click.stop
-        >
-          <div v-if="grabber" class="ios-sheet-grabber"
-            @pointerdown="onDragStart"
-            @pointermove="onDragMove"
-            @pointerup="onDragEnd"
-          ></div>
-          <div v-if="title" class="ios-sheet-header">
-            <h2>{{ title }}</h2>
-          </div>
-          <div class="ios-sheet-content">
-            <slot />
-          </div>
+    <div v-if="visible" ref="backdropRef" class="ios-sheet-backdrop" @click="close">
+      <div
+        ref="sheetRef"
+        class="ios-sheet"
+        :class="[detentClass]"
+        :style="{ marginTop: offsetY + 'px' }"
+        @click.stop
+      >
+        <div v-if="grabber" class="ios-sheet-grabber"
+          @pointerdown="onDragStart"
+          @pointermove="onDragMove"
+          @pointerup="onDragEnd"
+        ></div>
+        <div v-if="title" class="ios-sheet-header">
+          <h2>{{ title }}</h2>
+        </div>
+        <div class="ios-sheet-content">
+          <slot />
         </div>
       </div>
-    </Transition>
+    </div>
   </Teleport>
 </template>
 
@@ -37,8 +36,9 @@
  * @event {'update:modelValue'} update:modelValue - Emitted on close (v-model)
  * @event {'close'} close - Emitted when sheet closes
  */
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useDrag } from '../composables/useDrag.js'
+import { useGsap } from '../composables/useGsap.js'
 
 const props = defineProps({
   modelValue: Boolean,
@@ -49,8 +49,36 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'close'])
 
+const { tween, reducedMotion, SPRING, DURATION } = useGsap()
+
+const visible = ref(false)
+const backdropRef = ref(null)
+const sheetRef = ref(null)
 const offsetY = ref(0)
 const detentClass = computed(() => `ios-detent-${props.detent}`)
+
+watch(() => props.modelValue, (show) => {
+  if (show) {
+    visible.value = true
+    requestAnimationFrame(() => {
+      if (!backdropRef.value || !sheetRef.value) return
+      tween(backdropRef.value, { opacity: 1, duration: DURATION.normal, ease: 'power2.out' })
+      tween(sheetRef.value, {
+        y: '0%',
+        duration: reducedMotion ? 0 : 0.5,
+        ease: SPRING.ease,
+      })
+    })
+  } else if (visible.value) {
+    const tl = tween(backdropRef.value, { opacity: 0, duration: DURATION.normal, ease: 'power2.in' })
+    tween(sheetRef.value, {
+      y: '100%',
+      duration: DURATION.normal,
+      ease: 'power2.in',
+      onComplete: () => { visible.value = false },
+    })
+  }
+})
 
 function close() {
   emit('update:modelValue', false)
@@ -76,6 +104,7 @@ const { isDragging: dragging, onPointerDown: onDragStart, onPointerMove: onDragM
   display: flex;
   align-items: flex-end;
   z-index: 1000;
+  opacity: 0;
 }
 .ios-sheet {
   width: 100%;
@@ -86,6 +115,7 @@ const { isDragging: dragging, onPointerDown: onDragStart, onPointerMove: onDragM
   background: var(--sheet-bg);
   backdrop-filter: blur(var(--sheet-blur));
   -webkit-backdrop-filter: blur(var(--sheet-blur));
+  transform: translateY(100%);
 }
 .ios-sheet-grabber {
   width: 36px;
@@ -106,24 +136,4 @@ const { isDragging: dragging, onPointerDown: onDragStart, onPointerMove: onDragM
 .ios-detent-medium .ios-sheet-content { min-height: 40vh; }
 .ios-detent-large .ios-sheet-content { min-height: 70vh; }
 .ios-detent-full .ios-sheet-content { min-height: 90vh; }
-
-/* ---- Enter/leave animations ---- */
-.ios-sheet-enter-active,
-.ios-sheet-leave-active {
-  transition: opacity var(--duration-slow) var(--ease-default);
-}
-.ios-sheet-enter-from,
-.ios-sheet-leave-to {
-  opacity: 0;
-}
-.ios-sheet-enter-active .ios-sheet,
-.ios-sheet-leave-active .ios-sheet {
-  transition: transform 0.4s var(--ease-default);
-}
-.ios-sheet-enter-from .ios-sheet {
-  transform: translateY(100%);
-}
-.ios-sheet-leave-to .ios-sheet {
-  transform: translateY(100%);
-}
 </style>

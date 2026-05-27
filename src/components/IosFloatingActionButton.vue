@@ -11,6 +11,7 @@
     :style="fabStyle"
   >
     <div
+      ref="panelRef"
       class="ios-fab-actions-panel"
       :class="{ 'ios-fab-actions-panel-visible': expanded }"
     >
@@ -18,6 +19,7 @@
     </div>
 
     <button
+      ref="btnRef"
       class="ios-fab-btn"
       :class="{ 'ios-fab-btn-active': expanded }"
       @pointerdown="onPointerDown"
@@ -35,6 +37,7 @@
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import IosIcon from './IosIcon.vue'
 import { useDrag } from '../composables/useDrag.js'
+import { useGsap } from '../composables/useGsap.js'
 
 /**
  * IosFloatingActionButton — Draggable FAB with expandable actions panel.
@@ -65,6 +68,30 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:expanded', 'drag-end'])
+
+const { tween, SPRING, DURATION } = useGsap()
+const panelRef = ref(null)
+const btnRef = ref(null)
+
+watch(() => props.expanded, (open) => {
+  if (panelRef.value) {
+    tween(panelRef.value, {
+      opacity: open ? 1 : 0,
+      y: open ? 0 : 8,
+      scale: open ? 1 : 0.95,
+      duration: DURATION.slow,
+      ease: open ? SPRING.ease : 'power2.in',
+      pointerEvents: open ? 'auto' : 'none',
+    })
+  }
+  if (btnRef.value) {
+    tween(btnRef.value, {
+      rotation: open ? 90 : 0,
+      duration: DURATION.slow,
+      ease: SPRING.ease,
+    })
+  }
+})
 
 const fabSize = ref(window.innerWidth <= 768 ? 56 : 44)
 
@@ -194,8 +221,6 @@ watch(
   padding: var(--space-1);
   opacity: 0;
   transform: translateY(8px) scale(0.95);
-  transition: opacity var(--duration-slow) var(--ease-default),
-              transform var(--duration-slow) var(--ease-default);
   pointer-events: none;
 }
 
@@ -235,9 +260,6 @@ watch(
   cursor: pointer;
   color: var(--label-primary);
   font-family: var(--font-family);
-  transition: transform var(--duration-slow) var(--ease-default),
-              background var(--duration-slow) var(--ease-default),
-              box-shadow var(--duration-slow) var(--ease-default);
   touch-action: none;
   padding: 0;
   outline: none;
@@ -249,9 +271,8 @@ watch(
   transform: scale(0.92);
 }
 
-/* Expanded state: rotate menu icon */
+/* Expanded state */
 .ios-fab-btn-active {
-  transform: rotate(90deg);
   background: var(--fill-primary);
   box-shadow: var(--shadow-lg);
 }

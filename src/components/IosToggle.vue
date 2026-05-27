@@ -2,6 +2,7 @@
   <label class="ios-toggle-wrapper">
     <span v-if="label" class="ios-toggle-label">{{ label }}</span>
     <button
+      ref="trackRef"
       role="switch"
       class="ios-toggle"
       :class="{ 'ios-checked': modelValue }"
@@ -9,7 +10,7 @@
       :disabled="disabled"
       @click="onToggle"
     >
-      <span class="ios-toggle-thumb"></span>
+      <span ref="thumbRef" class="ios-toggle-thumb"></span>
     </button>
   </label>
 </template>
@@ -25,6 +26,9 @@
  * @event {'update:modelValue'} update:modelValue - Emitted on toggle (v-model)
  * @event {'change'} change - Emitted on toggle with new value
  */
+import { ref, watch } from 'vue'
+import { useGsap } from '../composables/useGsap.js'
+
 const props = defineProps({
   modelValue: Boolean,
   disabled: Boolean,
@@ -32,6 +36,25 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue', 'change'])
+
+const { tween, reducedMotion, SPRING_TIGHT, DURATION } = useGsap()
+const trackRef = ref(null)
+const thumbRef = ref(null)
+
+watch(() => props.modelValue, (checked) => {
+  if (!trackRef.value || !thumbRef.value) return
+  const d = reducedMotion ? 0 : DURATION.slow
+  tween(trackRef.value, {
+    backgroundColor: checked ? 'var(--color-green)' : 'var(--fill-secondary)',
+    duration: d,
+    ease: 'power2.out',
+  })
+  tween(thumbRef.value, {
+    x: checked ? 20 : 0,
+    duration: d,
+    ease: SPRING_TIGHT.ease,
+  })
+}, { immediate: true })
 
 function onToggle() {
   if (props.disabled) return
@@ -58,7 +81,6 @@ function onToggle() {
   background-color: var(--fill-secondary);
   cursor: pointer;
   flex-shrink: 0;
-  transition: background-color var(--duration-slow) var(--ease-spring);
   padding: 0;
 }
 .ios-toggle.ios-checked { background-color: var(--color-green); }
@@ -71,9 +93,7 @@ function onToggle() {
   border-radius: 50%;
   background-color: var(--white);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--duration-slow) var(--ease-spring);
 }
-.ios-toggle.ios-checked .ios-toggle-thumb { transform: translateX(20px); }
 .ios-toggle-label {
   font: var(--type-body);
 }

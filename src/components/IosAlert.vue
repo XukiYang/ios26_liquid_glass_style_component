@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
-    <div v-if="modelValue" class="ios-alert-backdrop" @click="close">
-      <div class="ios-alert" role="alertdialog" :aria-label="title" @click.stop>
+    <div v-if="visible" ref="backdropRef" class="ios-alert-backdrop" @click="close">
+      <div ref="alertRef" class="ios-alert" role="alertdialog" :aria-label="title" @click.stop>
         <div class="ios-alert-content">
           <h2>{{ title }}</h2>
           <p v-if="message">{{ message }}</p>
@@ -23,7 +23,9 @@
 </template>
 
 <script setup>
+import { ref, watch } from 'vue'
 import IosButton from './IosButton.vue'
+import { useGsap } from '../composables/useGsap.js'
 
 /**
  * IosAlert — Modal alert dialog with action buttons.
@@ -44,6 +46,34 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
+const { tween, reducedMotion, SPRING, DURATION } = useGsap()
+const visible = ref(false)
+const backdropRef = ref(null)
+const alertRef = ref(null)
+
+watch(() => props.modelValue, (show) => {
+  if (show) {
+    visible.value = true
+    requestAnimationFrame(() => {
+      if (!backdropRef.value || !alertRef.value) return
+      tween(backdropRef.value, { opacity: 1, duration: DURATION.normal, ease: 'power2.out' })
+      tween(alertRef.value, {
+        scale: 1, opacity: 1,
+        duration: reducedMotion ? 0 : 0.4,
+        ease: SPRING.ease,
+      })
+    })
+  } else if (visible.value) {
+    tween(backdropRef.value, { opacity: 0, duration: DURATION.normal, ease: 'power2.in' })
+    tween(alertRef.value, {
+      scale: 0.9, opacity: 0,
+      duration: DURATION.normal,
+      ease: 'power2.in',
+      onComplete: () => { visible.value = false },
+    })
+  }
+})
+
 function close() {
   emit('update:modelValue', false)
 }
@@ -63,6 +93,7 @@ function onAction(action) {
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  opacity: 0;
 }
 .ios-alert {
   width: 270px;
@@ -72,6 +103,8 @@ function onAction(action) {
   background: var(--glass-large-bg);
   backdrop-filter: blur(var(--blur-regular));
   -webkit-backdrop-filter: blur(var(--blur-regular));
+  transform: scale(0.9);
+  opacity: 0;
 }
 .ios-alert-content { margin-bottom: var(--space-4); }
 .ios-alert-content h2 { margin: 0 0 var(--space-1); }
