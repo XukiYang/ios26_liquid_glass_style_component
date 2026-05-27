@@ -202,6 +202,18 @@
       <!-- ============ More Tab: Feedback & Settings ============ -->
       <template v-if="activeTab === 'more'">
         <section class="section" style="padding-top:8px;">
+          <h2 class="section-label text-footnote emphasized text-secondary">Charts</h2>
+          <div class="glass-card liquid-glass-medium" style="display:flex;flex-direction:column;gap:16px;">
+            <IosChart type="line" :data="lineData" height="200px" />
+            <IosChart type="bar" :data="barData" height="200px" />
+            <div style="display:flex;gap:16px;">
+              <IosChart type="doughnut" :data="pieData" height="180px" />
+              <IosChart type="radar" :data="radarData" height="180px" />
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
           <h2 class="section-label text-footnote emphasized text-secondary">Overlays</h2>
           <div class="glass-card liquid-glass-medium" style="display:flex;gap:8px;align-items:center;">
             <IosButton variant="filled" @click="alertOpen = true">Alert</IosButton>
@@ -334,6 +346,7 @@ import IosActionBar from './components/IosActionBar.vue'
 import IosFloatingActionButton from './components/IosFloatingActionButton.vue'
 import IosToast from './components/IosToast.vue'
 import IosTableView from './components/IosTableView.vue'
+import IosChart from './components/IosChart.vue'
 import { useToast } from './composables/useToast.js'
 import { useTheme } from './composables/useTheme.js'
 import { useConfirm } from './composables/useConfirm.js'
@@ -498,6 +511,37 @@ const currentPage = ref(1)
 /* ---- More tab data ------------------------------------------------------- */
 const alertOpen = ref(false)
 const sheetOpen = ref(false)
+
+/* ---- Chart demo data ----------------------------------------------------- */
+const lineData = {
+  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+  datasets: [
+    { label: 'Revenue', data: [12, 19, 8, 15, 22, 30], borderColor: 'var(--color-blue)', backgroundColor: 'rgba(0,136,255,0.1)', fill: true },
+    { label: 'Expenses', data: [8, 11, 13, 12, 16, 18], borderColor: 'var(--color-red)', backgroundColor: 'rgba(255,56,60,0.1)', fill: true },
+  ],
+}
+
+const barData = {
+  labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  datasets: [
+    { label: 'Steps', data: [6500, 8200, 7100, 9300, 10200, 12500, 8800], backgroundColor: 'var(--color-blue)' },
+  ],
+}
+
+const pieData = {
+  labels: ['Photos', 'Apps', 'Music', 'Messages', 'Other'],
+  datasets: [
+    { data: [35, 25, 20, 12, 8], backgroundColor: ['var(--color-blue)', 'var(--color-green)', 'var(--color-orange)', 'var(--color-purple)', 'var(--color-teal)'] },
+  ],
+}
+
+const radarData = {
+  labels: ['Speed', 'Reliability', 'Comfort', 'Safety', 'Efficiency', 'Design'],
+  datasets: [
+    { label: 'Model A', data: [85, 90, 78, 92, 88, 95], borderColor: 'var(--color-blue)', backgroundColor: 'rgba(0,136,255,0.15)' },
+    { label: 'Model B', data: [70, 85, 92, 80, 75, 88], borderColor: 'var(--color-green)', backgroundColor: 'rgba(52,199,89,0.15)' },
+  ],
+}
 
 const alertActions = [
   { label: 'Cancel', style: 'cancel', onclick: () => {} },

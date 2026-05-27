@@ -68,6 +68,9 @@ src/
 | `IosSheet` | Bottom sheet with detents |
 | `IosTabBar` | Bottom tab bar |
 | `IosToolbar` | Top toolbar with collapse support |
+| `IosTagInput` | Text input with autocomplete dropdown |
+| `IosVerticalNav` | Vertical sidebar navigation |
+| `IosChart` | Chart.js wrapper, line/bar/pie/doughnut/radar/area, iOS theme auto-applied |
 
 ### Design decisions
 
@@ -75,7 +78,8 @@ src/
 |---|---|
 | **Audience** | Vue 3 developers |
 | **Distribution** | Source-copy (no npm publish) |
-| **Component encapsulation** | Fully self-contained `<style scoped>`, zero external CSS deps |
+| **Component encapsulation** | Fully self-contained `<style scoped>` |
+| **External deps** | `chart.js` + `vue-chartjs` (IosChart only) |
 | **Mandatory global dep** | `tokens.css` (design tokens) + `base.css` (reset + utilities) |
 | **CSS naming** | `ios-` prefix for all custom classes (e.g. `ios-btn`, `ios-capsule-track`) |
 | **Dark mode** | All values in `tokens.css` CSS variables; components only reference `var(--*)` |
