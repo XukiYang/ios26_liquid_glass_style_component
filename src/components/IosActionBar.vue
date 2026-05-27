@@ -84,7 +84,7 @@ function select(id) {
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
-  transition: background-color 0.15s ease, transform 0.12s ease;
+  transition: background-color var(--duration-fast) ease, transform 0.12s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -111,7 +111,7 @@ function select(id) {
   line-height: 1;
   flex-shrink: 0;
   color: var(--label-primary);
-  transition: color 0.2s ease;
+  transition: color var(--duration-normal) ease;
 }
 
 .ios-action-bar-icon.ios-action-bar-item--active {
@@ -121,13 +121,9 @@ function select(id) {
 /* ---- Label ---- */
 .ios-action-bar-label {
   flex: 1;
-  font-family: var(--font-family);
-  font-size: var(--text-body);
-  line-height: var(--lh-body);
-  letter-spacing: var(--ls-body);
-  font-weight: var(--weight-regular);
+  font: var(--type-body);
   color: var(--label-primary);
-  transition: color 0.2s ease;
+  transition: color var(--duration-normal) ease;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

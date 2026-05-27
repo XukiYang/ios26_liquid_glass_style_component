@@ -19,6 +19,10 @@
   --color-pink: #ff2d55;
   --color-brown: #ac7f5e;
 
+  /* -- Accent (used by buttons, links, active states) -------------------- */
+  --accent-blue: #0088ff;
+  --accent-red: #ff383c;
+
   /* -- Labels (4 levels) ------------------------------------------------- */
   --label-primary: #000000;
   --label-secondary: rgba(60, 60, 67, 0.6);
@@ -52,17 +56,6 @@
   /* -- Separators -------------------------------------------------------- */
   --separator-opaque: #c6c6c8;
   --separator: rgba(0, 0, 0, 0.12);
-
-  /* -- Vibrant Labels (Light) -------------------------------------------- */
-  --vibrant-label-primary: #000000;
-  --vibrant-label-secondary: #3d3d3d;
-  --vibrant-label-tertiary: rgba(61, 61, 61, 0.5);
-  --vibrant-label-quaternary: rgba(61, 61, 61, 0.5);
-
-  /* -- Vibrant Fills (Light) --------------------------------------------- */
-  --vibrant-fill-primary: #cccccc;
-  --vibrant-fill-secondary: #e0e0e0;
-  --vibrant-fill-tertiary: #ededed;
 
   /* -- Typography -------------------------------------------------------- */
   --font-family: 'HarmonyOS_Sans_SC_Regular', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
@@ -116,6 +109,37 @@
   --weight-semibold: 600;
   --weight-bold: 700;
 
+  /* -- Typography shorthands (font shorthand for components) ------------- */
+  --type-large-title: var(--weight-bold) var(--text-large-title)/var(--lh-large-title) var(--font-family);
+  --type-title1: var(--weight-bold) var(--text-title1)/var(--lh-title1) var(--font-family);
+  --type-title2: var(--weight-semibold) var(--text-title2)/var(--lh-title2) var(--font-family);
+  --type-title3: var(--weight-semibold) var(--text-title3)/var(--lh-title3) var(--font-family);
+  --type-headline: var(--weight-semibold) var(--text-headline)/var(--lh-headline) var(--font-family);
+  --type-body: var(--weight-regular) var(--text-body)/var(--lh-body) var(--font-family);
+  --type-callout: var(--weight-regular) var(--text-callout)/var(--lh-callout) var(--font-family);
+  --type-subheadline: var(--weight-regular) var(--text-subheadline)/var(--lh-subheadline) var(--font-family);
+  --type-footnote: var(--weight-regular) var(--text-footnote)/var(--lh-footnote) var(--font-family);
+  --type-caption1: var(--weight-regular) var(--text-caption1)/var(--lh-caption1) var(--font-family);
+  --type-caption2: var(--weight-regular) var(--text-caption2)/var(--lh-caption2) var(--font-family);
+
+  /* -- Motion (transition durations) ------------------------------------- */
+  --duration-fast: 0.15s;
+  --duration-normal: 0.25s;
+  --duration-slow: 0.35s;
+
+  --ease-default: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1.0);
+
+  /* -- Shadows ----------------------------------------------------------- */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.15);
+  --shadow-pill: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.04);
+  --shadow-thumb: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  /* -- Focus ring -------------------------------------------------------- */
+  --focus-ring: inset 0 0 0 1.5px var(--color-blue);
+
   /* -- Materials (Liquid Glass & Blur) ----------------------------------- */
   --blur-chrome: 50px;
   --blur-thick: 100px;
@@ -123,31 +147,26 @@
   --blur-thin: 100px;
   --blur-ultrathin: 100px;
 
-  --material-chrome-opacity: 0.75;
-  --material-thick-opacity: 0.84;
-  --material-regular-opacity: 0.60;
-  --material-thin-opacity: 0.40;
-  --material-ultrathin-opacity: 0.03;
-
   --glass-large-bg: rgba(250, 250, 250, 0.7);
   --glass-large-radius: 14px;
-  --glass-large-shadow-blur: 40px;
   --glass-medium-bg: transparent;
   --glass-medium-radius: 12px;
-  --glass-medium-shadow-blur: 40px;
   --glass-small-bg: #f7f7f7;
   --glass-small-border: #dddddd;
-  --glass-small-shadow-blur: 40px;
   --glass-primary-bg: #ffffff;
   --glass-primary-icon-color: #0091ff;
-  --glass-primary-shadow-blur: 40px;
   --glass-clear-bg: rgba(255, 255, 255, 0.07);
   --glass-clear-radius: 5px;
-  --glass-clear-shadow-blur: 40px;
 
-
-  --scroll-edge-soft-blur: 10px;
-  --scroll-edge-hard-blur: 60px;
+  /* -- Component backgrounds (tabbar, toolbar, sheet) -------------------- */
+  --tabbar-bg: rgba(250, 250, 250, 0.7);
+  --tabbar-blur: 40px;
+  --toolbar-bg: rgba(250, 250, 250, 0.7);
+  --toolbar-blur: 40px;
+  --sheet-bg: rgba(255, 255, 255, 0.84);
+  --sheet-blur: 100px;
+  --pill-indicator-bg-dark: rgba(255, 255, 255, 0.2);
+  --pill-indicator-bg-dark-alt: rgba(255, 255, 255, 0.27);
 
   /* -- Spacing (4px base grid) ------------------------------------------- */
   --space-0: 0px;
@@ -212,6 +231,9 @@
     --color-pink: #ff375f;
     --color-brown: #ac8e68;
 
+    --accent-blue: #0091ff;
+    --accent-red: #ff453a;
+
     --label-primary: #ffffff;
     --label-secondary: rgba(235, 235, 245, 0.6);
     --label-tertiary: rgba(235, 235, 245, 0.3);
@@ -241,14 +263,10 @@
     --separator-opaque: #38383a;
     --separator: rgba(84, 84, 88, 0.65);
 
-    --vibrant-label-primary: #ffffff;
-    --vibrant-label-secondary: #999999;
-    --vibrant-label-tertiary: #404040;
-    --vibrant-label-quaternary: #262626;
-
-    --vibrant-fill-primary: #333333;
-    --vibrant-fill-secondary: #1f1f1f;
-    --vibrant-fill-tertiary: #121212;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.35);
+    --shadow-pill: none;
 
     --glass-large-bg: rgba(0, 0, 0, 0.8);
     --glass-medium-bg: transparent;
@@ -256,12 +274,11 @@
     --glass-small-border: rgba(255, 255, 255, 0.06);
     --glass-clear-bg: rgba(255, 255, 255, 0.07);
 
-
-    --material-chrome-opacity: 0.75;
-    --material-thick-opacity: 0.84;
-    --material-regular-opacity: 0.60;
-    --material-thin-opacity: 0.40;
-    --material-ultrathin-opacity: 0.03;
+    --tabbar-bg: rgba(0, 0, 0, 0.8);
+    --toolbar-bg: rgba(0, 0, 0, 0.8);
+    --sheet-bg: rgba(0, 0, 0, 0.84);
+    --pill-indicator-bg-dark: rgba(255, 255, 255, 0.2);
+    --pill-indicator-bg-dark-alt: rgba(255, 255, 255, 0.27);
   }
 }
 
@@ -278,6 +295,9 @@
   --color-purple: #bf5af2;
   --color-pink: #ff375f;
   --color-brown: #ac8e68;
+
+  --accent-blue: #0091ff;
+  --accent-red: #ff453a;
 
   --label-primary: #ffffff;
   --label-secondary: rgba(235, 235, 245, 0.6);
@@ -308,14 +328,10 @@
   --separator-opaque: #38383a;
   --separator: rgba(84, 84, 88, 0.65);
 
-  --vibrant-label-primary: #ffffff;
-  --vibrant-label-secondary: #999999;
-  --vibrant-label-tertiary: #404040;
-  --vibrant-label-quaternary: #262626;
-
-  --vibrant-fill-primary: #333333;
-  --vibrant-fill-secondary: #1f1f1f;
-  --vibrant-fill-tertiary: #121212;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.35);
+  --shadow-pill: none;
 
   --glass-large-bg: rgba(0, 0, 0, 0.8);
   --glass-medium-bg: transparent;
@@ -323,9 +339,9 @@
   --glass-small-border: rgba(255, 255, 255, 0.06);
   --glass-clear-bg: rgba(255, 255, 255, 0.07);
 
-  --material-chrome-opacity: 0.75;
-  --material-thick-opacity: 0.84;
-  --material-regular-opacity: 0.60;
-  --material-thin-opacity: 0.40;
-  --material-ultrathin-opacity: 0.03;
+  --tabbar-bg: rgba(0, 0, 0, 0.8);
+  --toolbar-bg: rgba(0, 0, 0, 0.8);
+  --sheet-bg: rgba(0, 0, 0, 0.84);
+  --pill-indicator-bg-dark: rgba(255, 255, 255, 0.2);
+  --pill-indicator-bg-dark-alt: rgba(255, 255, 255, 0.27);
 }

@@ -78,11 +78,11 @@ function onClear() {
   padding: 0 var(--space-3);
   gap: var(--space-2);
   box-shadow: inset 0 0 0 0 transparent;
-  transition: box-shadow 0.25s ease;
+  transition: box-shadow var(--duration-normal) ease;
 }
 
 .ios-textfield-focused .ios-textfield-input-wrapper {
-  box-shadow: inset 0 0 0 1.5px var(--color-blue);
+  box-shadow: var(--focus-ring);
 }
 
 .ios-textfield-leading {
@@ -102,12 +102,9 @@ function onClear() {
 }
 
 .ios-textfield-label {
-  font-family: var(--font-family);
-  font-size: var(--text-subheadline);
-  line-height: var(--lh-subheadline);
-  letter-spacing: var(--ls-subheadline);
+  font: var(--type-subheadline);
   color: var(--label-secondary);
-  transition: color 0.2s ease;
+  transition: color var(--duration-normal) ease;
 }
 
 .ios-textfield-focused .ios-textfield-label {
@@ -127,6 +124,6 @@ function onClear() {
   padding: 0;
   flex-shrink: 0;
   color: var(--label-secondary);
-  transition: opacity 0.2s ease;
+  transition: opacity var(--duration-normal) ease;
 }
 </style>

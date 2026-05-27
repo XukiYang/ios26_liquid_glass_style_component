@@ -7,15 +7,15 @@
           <p v-if="message">{{ message }}</p>
         </div>
         <div class="ios-alert-actions">
-          <button
+          <IosButton
             v-for="action in actions"
             :key="action.label"
-            class="ios-alert-action"
-            :class="{ 'ios-alert-action-cancel': action.style === 'cancel', 'ios-alert-action-destructive': action.style === 'destructive' }"
+            :variant="action.style === 'cancel' ? 'gray' : action.style === 'destructive' ? 'destructive' : 'filled'"
+            size="small"
             @click="onAction(action)"
           >
             {{ action.label }}
-          </button>
+          </IosButton>
         </div>
       </div>
     </div>
@@ -23,6 +23,18 @@
 </template>
 
 <script setup>
+import IosButton from './IosButton.vue'
+
+/**
+ * IosAlert — Modal alert dialog with action buttons.
+ *
+ * @prop {boolean} [modelValue=false] - Visibility state (v-model)
+ * @prop {string} title - Alert title (required)
+ * @prop {string} [message] - Alert body message
+ * @prop {Array<{label: string, style?: 'default'|'cancel'|'destructive', onclick?: Function}>} [actions=[]] - Action buttons
+ *
+ * @event {'update:modelValue'} update:modelValue - Emitted on close (v-model)
+ */
 const props = defineProps({
   modelValue: Boolean,
   title: { type: String, required: true },
@@ -70,31 +82,10 @@ function onAction(action) {
   gap: var(--space-2);
 }
 h2 {
-  font-family: var(--font-family);
-  font-size: var(--text-headline);
-  line-height: var(--lh-headline);
-  letter-spacing: var(--ls-headline);
-  font-weight: var(--weight-semibold);
+  font: var(--type-headline);
 }
 p {
-  font-family: var(--font-family);
-  font-size: var(--text-body);
-  line-height: var(--lh-body);
-  letter-spacing: var(--ls-body);
+  font: var(--type-body);
   color: var(--label-secondary);
 }
-.ios-alert-action {
-  font-family: var(--font-family);
-  font-size: var(--text-callout);
-  line-height: var(--lh-callout);
-  letter-spacing: var(--ls-callout);
-  padding: var(--space-2);
-  border: none;
-  border-radius: var(--radius-md);
-  background: var(--color-blue);
-  color: var(--white);
-  font-weight: var(--weight-semibold);
-}
-.ios-alert-action.ios-alert-action-cancel { background: var(--fill-primary); color: var(--color-blue); }
-.ios-alert-action.ios-alert-action-destructive { background: var(--color-red); color: var(--white); }
 </style>

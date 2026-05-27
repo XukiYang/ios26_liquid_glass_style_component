@@ -31,6 +31,18 @@
 </template>
 
 <script setup>
+/**
+ * IosVerticalNav — Vertical sidebar navigation with items and divider support.
+ *
+ * @prop {Array<{id: string, label: string, icon?: string, to?: string, type?: 'divider'}>} [items=[]] - Navigation items
+ * @prop {string} [modelValue=''] - Active item id (v-model)
+ * @prop {string} [title=''] - Navigation header title
+ * @prop {string} [subtitle=''] - Navigation header subtitle
+ * @prop {boolean} [open=false] - Open/collapsed state
+ *
+ * @event {'update:modelValue'} update:modelValue - Emitted on select (v-model)
+ * @event {'select'} select - Emitted on select with full item object
+ */
 import IosIcon from './IosIcon.vue'
 
 defineProps({
@@ -68,19 +80,13 @@ function onSelect(item) {
 }
 
 .ios-vertical-nav-title {
-  font-family: var(--font-family);
-  font-size: var(--text-title3);
-  line-height: var(--lh-title3);
-  letter-spacing: var(--ls-title3);
-  font-weight: var(--weight-semibold);
+  font: var(--type-title3);
   color: var(--label-primary);
   margin: 0 0 var(--space-1);
 }
 
 .ios-vertical-nav-subtitle {
-  font-family: var(--font-family);
-  font-size: var(--text-caption1);
-  line-height: var(--lh-caption1);
+  font: var(--type-caption1);
   color: var(--label-tertiary);
 }
 
@@ -97,12 +103,10 @@ function onSelect(item) {
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-lg);
   color: var(--label-secondary);
-  font-family: var(--font-family);
-  font-size: var(--text-subheadline);
-  line-height: var(--lh-subheadline);
+  font: var(--type-subheadline);
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 0.15s, color 0.15s;
+  transition: background-color var(--duration-fast), color var(--duration-fast);
   border-left: 3px solid transparent;
   margin-bottom: 2px;
 }

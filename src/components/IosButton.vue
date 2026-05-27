@@ -10,6 +10,15 @@
 </template>
 
 <script setup>
+/**
+ * IosButton — iOS 26 styled button with multiple variants.
+ *
+ * @prop {'filled'|'gray'|'tinted'|'plain'|'liquid-glass'|'destructive'} [variant='filled'] - Button visual style
+ * @prop {'small'|'medium'|'large'} [size='medium'] - Button size preset
+ * @prop {boolean} [disabled=false] - Disabled state
+ *
+ * @event {'click'} click - Emitted on button click
+ */
 defineProps({
   variant: { type: String, default: 'filled' },
   size: { type: String, default: 'medium' },
@@ -63,12 +72,12 @@ defineEmits(['click'])
 .ios-btn-destructive:active:not(:disabled) { opacity: 0.85; }
 
 /* Dark mode overrides */
-[data-theme="dark"] .ios-btn-filled { background-color: #0091ff; }
-[data-theme="dark"] .ios-btn-tinted { background-color: color-mix(in srgb, #0091ff 15%, transparent); color: #0091ff; }
-[data-theme="dark"] .ios-btn-gray { background-color: rgba(118, 118, 128, 0.18); color: var(--label-primary); }
-[data-theme="dark"] .ios-btn-plain { color: #0091ff; }
-[data-theme="dark"] .ios-btn-liquid-glass { background-color: rgba(118, 118, 128, 0.18); color: var(--label-primary); }
-[data-theme="dark"] .ios-btn-destructive { background-color: #ff453a; color: var(--white); }
+[data-theme="dark"] .ios-btn-filled { background-color: var(--accent-blue); }
+[data-theme="dark"] .ios-btn-tinted { background-color: color-mix(in srgb, var(--accent-blue) 15%, transparent); color: var(--accent-blue); }
+[data-theme="dark"] .ios-btn-gray { background-color: var(--fill-quaternary); color: var(--label-primary); }
+[data-theme="dark"] .ios-btn-plain { color: var(--accent-blue); }
+[data-theme="dark"] .ios-btn-liquid-glass { background-color: var(--fill-quaternary); color: var(--label-primary); }
+[data-theme="dark"] .ios-btn-destructive { background-color: var(--accent-red); color: var(--white); }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {

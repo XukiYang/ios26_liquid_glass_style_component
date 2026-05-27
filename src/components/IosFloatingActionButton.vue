@@ -34,6 +34,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import IosIcon from './IosIcon.vue'
+import { useDrag } from '../composables/useDrag.js'
 
 /**
  * IosFloatingActionButton — Draggable FAB with expandable actions panel.
@@ -69,9 +70,6 @@ const fabSize = ref(window.innerWidth <= 768 ? 56 : 44)
 
 const posX = ref(0)
 const posY = ref(0)
-const dragging = ref(false)
-const dragStartX = ref(0)
-const dragStartY = ref(0)
 const dragOriginX = ref(0)
 const dragOriginY = ref(0)
 
@@ -118,49 +116,29 @@ function clampToViewport() {
   posY.value = Math.max(0, Math.min(vh - size, posY.value))
 }
 
-/** @param {PointerEvent} e */
-function onPointerDown(e) {
-  if (!props.draggable) {
-    emit('update:expanded', !props.expanded)
-    return
-  }
-
-  dragging.value = true
-  dragStartX.value = e.clientX
-  dragStartY.value = e.clientY
-  dragOriginX.value = posX.value
-  dragOriginY.value = posY.value
-
-  // Ensure we receive move/up events even when the pointer leaves the element
-  e.target.setPointerCapture(e.pointerId)
-}
-
-/** @param {PointerEvent} e */
-function onPointerMove(e) {
-  if (!dragging.value) return
-  const dx = e.clientX - dragStartX.value
-  const dy = e.clientY - dragStartY.value
-  posX.value = dragOriginX.value + dx
-  posY.value = dragOriginY.value + dy
-  clampToViewport()
-}
-
-/** @param {PointerEvent} e */
-function onPointerUp(e) {
-  if (!dragging.value) return
-  dragging.value = false
-
-  const dx = e.clientX - dragStartX.value
-  const dy = e.clientY - dragStartY.value
-  const distance = Math.sqrt(dx * dx + dy * dy)
-
-  if (distance < 5) {
-    // Threshold: treat as a click/tap
-    emit('update:expanded', !props.expanded)
-  } else {
-    emit('drag-end', { x: Math.round(posX.value), y: Math.round(posY.value) })
-  }
-}
+const { isDragging: dragging, onPointerDown, onPointerMove, onPointerUp } = useDrag({
+  onDragStart() {
+    if (!props.draggable) {
+      emit('update:expanded', !props.expanded)
+      return
+    }
+    dragOriginX.value = posX.value
+    dragOriginY.value = posY.value
+  },
+  onDragMove({ dx, dy }) {
+    if (!props.draggable) return
+    posX.value = dragOriginX.value + dx
+    posY.value = dragOriginY.value + dy
+    clampToViewport()
+  },
+  onDragEnd({ isClick }) {
+    if (isClick) {
+      emit('update:expanded', !props.expanded)
+    } else {
+      emit('drag-end', { x: Math.round(posX.value), y: Math.round(posY.value) })
+    }
+  },
+})
 
 function onResize() {
   fabSize.value = window.innerWidth <= 768 ? 56 : 44
@@ -208,16 +186,16 @@ watch(
   max-height: 240px;
   overflow-y: auto;
   background: var(--fill-secondary);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
+  backdrop-filter: blur(var(--tabbar-blur));
+  -webkit-backdrop-filter: blur(var(--tabbar-blur));
   border-radius: var(--radius-xl);
   border: var(--border-hairline) solid var(--separator);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-lg);
   padding: var(--space-1);
   opacity: 0;
   transform: translateY(8px) scale(0.95);
-  transition: opacity 0.35s cubic-bezier(0.25, 0.1, 0.25, 1),
-              transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: opacity var(--duration-slow) var(--ease-default),
+              transform var(--duration-slow) var(--ease-default);
   pointer-events: none;
 }
 
@@ -248,18 +226,18 @@ watch(
   border-radius: 50%;
   border: var(--border-hairline) solid var(--separator);
   background: var(--fill-secondary);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(var(--tabbar-blur));
+  -webkit-backdrop-filter: blur(var(--tabbar-blur));
+  box-shadow: var(--shadow-md);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   color: var(--label-primary);
   font-family: var(--font-family);
-  transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1),
-              background 0.35s cubic-bezier(0.25, 0.1, 0.25, 1),
-              box-shadow 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: transform var(--duration-slow) var(--ease-default),
+              background var(--duration-slow) var(--ease-default),
+              box-shadow var(--duration-slow) var(--ease-default);
   touch-action: none;
   padding: 0;
   outline: none;
@@ -275,7 +253,7 @@ watch(
 .ios-fab-btn-active {
   transform: rotate(90deg);
   background: var(--fill-primary);
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-lg);
 }
 
 /* ---- Panel scrollbar ---- */

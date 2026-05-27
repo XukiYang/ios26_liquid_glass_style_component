@@ -14,6 +14,15 @@
 </template>
 
 <script setup>
+/**
+ * IosTabBar — Bottom tab bar navigation.
+ *
+ * @prop {Array<{id: string, icon: string, label: string}>} items - Tab items (required)
+ * @prop {string} [modelValue=''] - Active tab id (v-model)
+ *
+ * @event {'update:modelValue'} update:modelValue - Emitted on tab select (v-model)
+ * @event {'change'} change - Emitted on tab select with id
+ */
 const props = defineProps({
   items: { type: Array, required: true },
   modelValue: { type: String, default: '' },
@@ -37,9 +46,9 @@ function onSelect(id) {
   position: sticky;
   bottom: 0;
   z-index: 100;
-  background: rgba(250, 250, 250, 0.7);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
+  background: var(--tabbar-bg);
+  backdrop-filter: blur(var(--tabbar-blur));
+  -webkit-backdrop-filter: blur(var(--tabbar-blur));
 }
 .ios-tabbar-item {
   display: flex;
@@ -63,6 +72,6 @@ function onSelect(id) {
 }
 
 [data-theme="dark"] .ios-tabbar {
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--tabbar-bg);
 }
 </style>

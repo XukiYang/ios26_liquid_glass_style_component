@@ -26,7 +26,19 @@
 </template>
 
 <script setup>
+/**
+ * IosSheet — Bottom sheet with grabber, detents, and title.
+ *
+ * @prop {boolean} [modelValue=false] - Visibility state (v-model)
+ * @prop {boolean} [grabber=true] - Show drag grabber
+ * @prop {'medium'|'large'|'full'} [detent='large'] - Sheet height preset
+ * @prop {string} [title] - Optional header title
+ *
+ * @event {'update:modelValue'} update:modelValue - Emitted on close (v-model)
+ * @event {'close'} close - Emitted when sheet closes
+ */
 import { ref, computed } from 'vue'
+import { useDrag } from '../composables/useDrag.js'
 
 const props = defineProps({
   modelValue: Boolean,
@@ -37,10 +49,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'close'])
 
-const startY = ref(0)
 const offsetY = ref(0)
-const dragging = ref(false)
-
 const detentClass = computed(() => `ios-detent-${props.detent}`)
 
 function close() {
@@ -48,22 +57,15 @@ function close() {
   emit('close')
 }
 
-function onDragStart(e) {
-  dragging.value = true
-  startY.value = e.clientY
-  offsetY.value = 0
-}
-
-function onDragMove(e) {
-  if (!dragging.value) return
-  offsetY.value = Math.max(0, e.clientY - startY.value)
-}
-
-function onDragEnd() {
-  dragging.value = false
-  if (offsetY.value > 150) close()
-  offsetY.value = 0
-}
+const { isDragging: dragging, onPointerDown: onDragStart, onPointerMove: onDragMove, onPointerUp: onDragEnd } = useDrag({
+  onDragMove({ dy }) {
+    offsetY.value = Math.max(0, dy)
+  },
+  onDragEnd({ dy }) {
+    if (dy > 150) close()
+    offsetY.value = 0
+  },
+})
 </script>
 
 <style scoped>
@@ -81,9 +83,9 @@ function onDragEnd() {
   padding: var(--space-2) var(--space-4) var(--space-8);
   max-height: 85vh;
   overflow-y: auto;
-  background: rgba(255, 255, 255, 0.84);
-  backdrop-filter: blur(100px);
-  -webkit-backdrop-filter: blur(100px);
+  background: var(--sheet-bg);
+  backdrop-filter: blur(var(--sheet-blur));
+  -webkit-backdrop-filter: blur(var(--sheet-blur));
 }
 .ios-sheet-grabber {
   width: 36px;
@@ -94,15 +96,11 @@ function onDragEnd() {
 }
 .ios-sheet-header { margin-bottom: var(--space-4); }
 .ios-sheet-header h2 {
-  font-family: var(--font-family);
-  font-size: var(--text-headline);
-  line-height: var(--lh-headline);
-  letter-spacing: var(--ls-headline);
-  font-weight: var(--weight-semibold);
+  font: var(--type-headline);
   margin: 0;
 }
 [data-theme="dark"] .ios-sheet {
-  background: rgba(0, 0, 0, 0.84);
+  background: var(--sheet-bg);
 }
 
 .ios-detent-medium .ios-sheet-content { min-height: 40vh; }
@@ -112,7 +110,7 @@ function onDragEnd() {
 /* ---- Enter/leave animations ---- */
 .ios-sheet-enter-active,
 .ios-sheet-leave-active {
-  transition: opacity 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: opacity var(--duration-slow) var(--ease-default);
 }
 .ios-sheet-enter-from,
 .ios-sheet-leave-to {
@@ -120,7 +118,7 @@ function onDragEnd() {
 }
 .ios-sheet-enter-active .ios-sheet,
 .ios-sheet-leave-active .ios-sheet {
-  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: transform 0.4s var(--ease-default);
 }
 .ios-sheet-enter-from .ios-sheet {
   transform: translateY(100%);

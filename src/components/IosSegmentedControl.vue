@@ -16,6 +16,15 @@
 </template>
 
 <script setup>
+/**
+ * IosSegmentedControl — Equal-width segmented control with animated indicator.
+ *
+ * @prop {string[]} segments - Segment labels (required)
+ * @prop {number} [modelValue=0] - Active segment index (v-model)
+ *
+ * @event {'update:modelValue'} update:modelValue - Emitted on select (v-model)
+ * @event {'change'} change - Emitted on select with index
+ */
 import { computed } from 'vue'
 
 const props = defineProps({
@@ -56,10 +65,8 @@ function onSelect(index) {
   height: calc(100% - 4px);
   background: var(--bg-primary);
   border-radius: var(--radius-7);
-  box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.12),
-    0 3px 1px rgba(0, 0, 0, 0.04);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1.0);
+  box-shadow: var(--shadow-pill);
+  transition: transform var(--duration-slow) var(--ease-spring);
   z-index: 0;
 }
 
@@ -77,7 +84,7 @@ function onSelect(index) {
   font-family: var(--font-family);
   font-size: var(--text-footnote);
   font-weight: var(--weight-regular);
-  transition: color 0.2s ease;
+  transition: color var(--duration-normal) ease;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
   white-space: nowrap;
@@ -89,7 +96,7 @@ function onSelect(index) {
 }
 
 [data-theme="dark"] .ios-segment-indicator {
-  background: rgba(255, 255, 255, 0.27);
+  background: var(--pill-indicator-bg-dark-alt);
   box-shadow: none;
 }
 </style>

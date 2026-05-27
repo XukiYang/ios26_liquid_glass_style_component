@@ -1,0 +1,75 @@
+/* ==========================================================================
+   Base styles — CSS Reset, Typography utilities, Glass effects
+   Import after tokens.css in main.js
+   ========================================================================== */
+
+/* ===== Reset ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  background: var(--bg-primary);
+  color: var(--label-primary);
+  overflow: hidden;
+  height: 100vh;
+}
+
+#app {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ===== Typography utilities (demo page only) ===== */
+.text-large-title { font: var(--type-large-title); }
+.text-title1 { font: var(--type-title1); }
+.text-title2 { font: var(--type-title2); }
+.text-title3 { font: var(--type-title3); }
+.text-headline { font: var(--type-headline); }
+.text-body { font: var(--type-body); }
+.text-callout { font: var(--type-callout); }
+.text-subheadline { font: var(--type-subheadline); }
+.text-footnote { font: var(--type-footnote); }
+.text-caption1 { font: var(--type-caption1); }
+.text-caption2 { font: var(--type-caption2); }
+.emphasized { font-weight: var(--weight-semibold); }
+.text-large-title.emphasized { font-weight: var(--weight-bold); }
+.text-title1.emphasized { font-weight: var(--weight-bold); }
+.text-title2.emphasized { font-weight: var(--weight-bold); }
+.text-title3.emphasized { font-weight: var(--weight-semibold); }
+.text-caption1.emphasized { font-weight: var(--weight-medium); }
+.text-caption2.emphasized { font-weight: var(--weight-semibold); }
+.text-secondary { color: var(--label-secondary); }
+.text-tertiary { color: var(--label-tertiary); }
+
+/* ===== Liquid Glass utilities ===== */
+.liquid-glass-large {
+  background: var(--glass-large-bg);
+  backdrop-filter: blur(var(--blur-regular));
+  -webkit-backdrop-filter: blur(var(--blur-regular));
+  border: var(--border-hairline) solid rgba(0, 0, 0, 0.06);
+}
+.liquid-glass-medium {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: var(--border-hairline) solid rgba(0, 0, 0, 0.05);
+}
+.liquid-glass-small {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: var(--border-hairline) solid rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] .liquid-glass-large {
+  background: rgba(30, 30, 30, 0.75);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+[data-theme="dark"] .liquid-glass-medium {
+  background: rgba(30, 30, 30, 0.65);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .liquid-glass-small {
+  background: rgba(30, 30, 30, 0.55);
+  border-color: rgba(255, 255, 255, 0.05);
+}

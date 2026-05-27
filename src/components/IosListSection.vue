@@ -9,6 +9,12 @@
 </template>
 
 <script setup>
+/**
+ * IosListSection — Grouped list section wrapper with optional header/footer.
+ *
+ * @prop {string} [header] - Section header text (uppercase)
+ * @prop {string} [footer] - Section footer text
+ */
 defineProps({
   header: String,
   footer: String,

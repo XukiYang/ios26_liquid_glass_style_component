@@ -32,20 +32,22 @@
       <!-- Action buttons -->
       <div class="ios-error-view-actions">
         <slot name="actions">
-          <button
+          <IosButton
             v-if="showRetry"
-            class="ios-error-view-btn ios-error-view-btn--retry"
+            variant="filled"
+            size="small"
             @click="$emit('retry')"
           >
             重试
-          </button>
-          <button
+          </IosButton>
+          <IosButton
             v-if="showHome"
-            class="ios-error-view-btn ios-error-view-btn--home"
+            variant="plain"
+            size="small"
             @click="$emit('go-home')"
           >
             返回首页
-          </button>
+          </IosButton>
         </slot>
       </div>
     </slot>
@@ -53,6 +55,8 @@
 </template>
 
 <script setup>
+import IosButton from './IosButton.vue'
+
 /**
  * @typedef {Object} IosErrorViewProps
  * @property {string}  [title='页面出错了']   - Error title text
@@ -104,21 +108,13 @@ defineEmits(['retry', 'go-home'])
 }
 
 .ios-error-view-title {
-  font-family: var(--font-family);
-  font-size: var(--text-title2);
-  line-height: var(--lh-title2);
-  letter-spacing: var(--ls-title2);
-  font-weight: var(--weight-semibold);
+  font: var(--type-title2);
   color: var(--label-primary);
   margin: 0;
 }
 
 .ios-error-view-message {
-  font-family: var(--font-family);
-  font-size: var(--text-subheadline);
-  line-height: var(--lh-subheadline);
-  letter-spacing: var(--ls-subheadline);
-  font-weight: var(--weight-regular);
+  font: var(--type-subheadline);
   color: var(--label-secondary);
   margin: var(--space-2) 0 0;
 }
@@ -128,35 +124,5 @@ defineEmits(['retry', 'go-home'])
   flex-direction: row;
   gap: var(--space-3);
   align-items: center;
-}
-
-.ios-error-view-btn {
-  font-family: var(--font-family);
-  font-size: var(--text-subheadline);
-  font-weight: var(--weight-semibold);
-  border: none;
-  border-radius: var(--radius-lg);
-  padding: 10px 24px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: opacity 0.2s;
-}
-
-.ios-error-view-btn:hover {
-  opacity: var(--opacity-hover);
-}
-
-.ios-error-view-btn:active {
-  opacity: var(--opacity-muted);
-}
-
-.ios-error-view-btn--retry {
-  background-color: var(--color-blue);
-  color: var(--white);
-}
-
-.ios-error-view-btn--home {
-  background-color: transparent;
-  color: var(--color-blue);
 }
 </style>

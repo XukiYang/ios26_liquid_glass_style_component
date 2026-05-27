@@ -24,6 +24,17 @@
 </template>
 
 <script setup>
+/**
+ * IosSearchBar — iOS-style search input with cancel button.
+ *
+ * @prop {string} [modelValue=''] - Search text (v-model)
+ * @prop {string} [placeholder='Search'] - Placeholder text
+ *
+ * @event {'update:modelValue'} update:modelValue - Emitted on input (v-model)
+ * @event {'input'} input - Emitted on input with value
+ * @event {'submit'} submit - Emitted on Enter key with current value
+ * @event {'cancel'} cancel - Emitted when cancel button is clicked
+ */
 import { ref } from 'vue'
 import IosIcon from './IosIcon.vue'
 
@@ -73,11 +84,11 @@ function onCancel() {
   border-radius: var(--radius-lg);
   padding: 0 var(--space-3);
   box-shadow: inset 0 0 0 0 transparent;
-  transition: box-shadow 0.25s ease;
+  transition: box-shadow var(--duration-normal) ease;
 }
 
 .ios-searchbar-focused .ios-searchbar-field {
-  box-shadow: inset 0 0 0 1.5px var(--color-blue);
+  box-shadow: var(--focus-ring);
 }
 .ios-searchbar-input {
   flex: 1;

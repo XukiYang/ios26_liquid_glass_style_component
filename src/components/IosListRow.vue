@@ -21,6 +21,13 @@
 </template>
 
 <script setup>
+/**
+ * IosListRow — A single row in a list with leading/trailing slots.
+ *
+ * @prop {boolean} [disclosure=false] - Show disclosure indicator (›)
+ * @prop {boolean} [separator=true] - Show bottom separator
+ * @prop {Function} [onclick] - Click handler (makes row focusable)
+ */
 defineProps({
   disclosure: Boolean,
   separator: { type: Boolean, default: true },

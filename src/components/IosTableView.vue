@@ -138,12 +138,10 @@ function rowIndentStyle(item) {
 
 .ios-table-view-header {
   padding: var(--space-2) var(--space-4) var(--space-1);
-  font-size: var(--text-footnote);
+  font: var(--type-footnote);
   font-weight: var(--weight-medium);
   color: var(--label-secondary);
   text-transform: uppercase;
-  letter-spacing: var(--ls-footnote);
-  line-height: var(--lh-footnote);
 }
 
 .ios-table-view-content {
@@ -171,7 +169,7 @@ function rowIndentStyle(item) {
   min-height: var(--list-row-height);
   padding: var(--space-2) var(--space-4);
   cursor: pointer;
-  transition: background-color 0.15s ease;
+  transition: background-color var(--duration-fast) ease;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
 }
@@ -222,10 +220,8 @@ function rowIndentStyle(item) {
 }
 
 .ios-table-view-label {
-  font-size: var(--text-body);
-  font-weight: var(--weight-regular);
+  font: var(--type-body);
   color: var(--label-primary);
-  line-height: var(--lh-body);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -263,9 +259,7 @@ function rowIndentStyle(item) {
 /* -- Footer --------------------------------------------------------------- */
 .ios-table-view-footer {
   padding: var(--space-1) var(--space-4) var(--space-2);
-  font-size: var(--text-footnote);
-  font-weight: var(--weight-regular);
+  font: var(--type-footnote);
   color: var(--label-secondary);
-  line-height: var(--lh-footnote);
 }
 </style>

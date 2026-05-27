@@ -206,6 +206,7 @@
           <div class="glass-card liquid-glass-medium" style="display:flex;gap:8px;align-items:center;">
             <IosButton variant="filled" @click="alertOpen = true">Alert</IosButton>
             <IosButton variant="liquid-glass" @click="sheetOpen = true">Sheet</IosButton>
+            <IosButton variant="tinted" @click="onConfirm">Confirm</IosButton>
           </div>
         </section>
 
@@ -282,6 +283,13 @@
     message="Enter your passcode to access this feature."
     :actions="alertActions" />
 
+  <IosAlert v-model="confirmState.visible" :title="confirmState.title"
+    :message="confirmState.message"
+    :actions="[
+      { label: confirmState.cancelText, style: 'cancel', onclick: handleCancel },
+      { label: confirmState.confirmText, style: confirmState.confirmStyle, onclick: handleConfirm },
+    ]" />
+
   <IosSheet v-model="sheetOpen" title="Actions" detent="medium">
     <IosListSection>
       <IosListRow v-for="i in 6" :key="i" disclosure separator>
@@ -327,22 +335,24 @@ import IosFloatingActionButton from './components/IosFloatingActionButton.vue'
 import IosToast from './components/IosToast.vue'
 import IosTableView from './components/IosTableView.vue'
 import { useToast } from './composables/useToast.js'
+import { useTheme } from './composables/useTheme.js'
+import { useConfirm } from './composables/useConfirm.js'
 
 /* ---- Theme ---------------------------------------------------------------- */
-function getInitialDark() {
-  const stored = localStorage.getItem('theme')
-  if (stored === 'dark') return true
-  if (stored === 'light') return false
-  return document.documentElement.getAttribute('data-theme') === 'dark'
-}
+const { isDark, toggleTheme } = useTheme()
 
-const isDark = ref(getInitialDark())
+/* ---- Confirm -------------------------------------------------------------- */
+const { state: confirmState, confirm, handleConfirm, handleCancel } = useConfirm()
 
-function toggleTheme() {
-  isDark.value = !isDark.value
-  const theme = isDark.value ? 'dark' : 'light'
-  document.documentElement.setAttribute('data-theme', theme)
-  localStorage.setItem('theme', theme)
+async function onConfirm() {
+  const result = await confirm({
+    title: 'Delete Item',
+    message: 'Are you sure you want to delete this item? This action cannot be undone.',
+    confirmText: 'Delete',
+    cancelText: 'Cancel',
+    confirmStyle: 'destructive',
+  })
+  addToast(result ? 'Item deleted' : 'Cancelled', result ? 'success' : 'info')
 }
 
 /* ---- Scroll --------------------------------------------------------------- */
@@ -513,44 +523,6 @@ function onFabAction(label) {
 </script>
 
 <style>
-/* ===== Reset ===== */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: var(--font-family);
-  background: var(--bg-primary);
-  color: var(--label-primary);
-  overflow: hidden;
-  height: 100vh;
-}
-
-#app {
-  height: 100vh;
-  overflow: hidden;
-}
-
-/* ===== Typography ===== */
-.text-large-title { font-family: var(--font-family); font-size: var(--text-large-title); line-height: var(--lh-large-title); letter-spacing: var(--ls-large-title); font-weight: var(--weight-regular); }
-.text-title1 { font-family: var(--font-family); font-size: var(--text-title1); line-height: var(--lh-title1); letter-spacing: var(--ls-title1); font-weight: var(--weight-regular); }
-.text-title2 { font-family: var(--font-family); font-size: var(--text-title2); line-height: var(--lh-title2); letter-spacing: var(--ls-title2); font-weight: var(--weight-regular); }
-.text-title3 { font-family: var(--font-family); font-size: var(--text-title3); line-height: var(--lh-title3); letter-spacing: var(--ls-title3); font-weight: var(--weight-regular); }
-.text-headline { font-family: var(--font-family); font-size: var(--text-headline); line-height: var(--lh-headline); letter-spacing: var(--ls-headline); font-weight: var(--weight-semibold); }
-.text-body { font-family: var(--font-family); font-size: var(--text-body); line-height: var(--lh-body); letter-spacing: var(--ls-body); font-weight: var(--weight-regular); }
-.text-callout { font-family: var(--font-family); font-size: var(--text-callout); line-height: var(--lh-callout); letter-spacing: var(--ls-callout); font-weight: var(--weight-regular); }
-.text-subheadline { font-family: var(--font-family); font-size: var(--text-subheadline); line-height: var(--lh-subheadline); letter-spacing: var(--ls-subheadline); font-weight: var(--weight-regular); }
-.text-footnote { font-family: var(--font-family); font-size: var(--text-footnote); line-height: var(--lh-footnote); letter-spacing: var(--ls-footnote); font-weight: var(--weight-regular); }
-.text-caption1 { font-family: var(--font-family); font-size: var(--text-caption1); line-height: var(--lh-caption1); letter-spacing: var(--ls-caption1); font-weight: var(--weight-regular); }
-.text-caption2 { font-family: var(--font-family); font-size: var(--text-caption2); line-height: var(--lh-caption2); letter-spacing: var(--ls-caption2); font-weight: var(--weight-regular); }
-.emphasized { font-weight: var(--weight-semibold); }
-.text-large-title.emphasized { font-weight: var(--weight-bold); }
-.text-title1.emphasized { font-weight: var(--weight-bold); }
-.text-title2.emphasized { font-weight: var(--weight-bold); }
-.text-title3.emphasized { font-weight: var(--weight-semibold); }
-.text-caption1.emphasized { font-weight: var(--weight-medium); }
-.text-caption2.emphasized { font-weight: var(--weight-semibold); }
-.text-secondary { color: var(--label-secondary); }
-.text-tertiary { color: var(--label-tertiary); }
-
 /* ===== Background Orbs ===== */
 .bg-layer {
   position: fixed;
@@ -762,7 +734,7 @@ body {
   cursor: pointer;
   padding: 4px 12px;
   border-radius: 10px;
-  transition: color 0.2s;
+  transition: color var(--duration-normal);
   font-family: var(--font-family);
   -webkit-tap-highlight-color: transparent;
 }
@@ -775,7 +747,7 @@ body {
 .tab-slide-left-leave-active,
 .tab-slide-right-enter-active,
 .tab-slide-right-leave-active {
-  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.25s ease;
+  transition: transform var(--duration-slow) var(--ease-default), opacity var(--duration-normal) ease;
 }
 
 .tab-slide-left-enter-from {
@@ -800,68 +772,20 @@ body {
   will-change: transform, opacity;
 }
 
-/* ===== iOS Material Replacements (was liquid-glass / materials.css) ===== */
-.liquid-glass-large {
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border: 0.5px solid rgba(0, 0, 0, 0.06);
-}
-.liquid-glass-medium {
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 0.5px solid rgba(0, 0, 0, 0.05);
-}
-.liquid-glass-small {
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 0.5px solid rgba(0, 0, 0, 0.04);
-}
-
-[data-theme="dark"] .liquid-glass-large {
-  background: rgba(30, 30, 30, 0.75);
-  border-color: rgba(255, 255, 255, 0.08);
-}
-[data-theme="dark"] .liquid-glass-medium {
-  background: rgba(30, 30, 30, 0.65);
-  border-color: rgba(255, 255, 255, 0.06);
-}
-[data-theme="dark"] .liquid-glass-small {
-  background: rgba(30, 30, 30, 0.55);
-  border-color: rgba(255, 255, 255, 0.05);
-}
-
+/* ===== Material chips (demo only) ===== */
 .material-chip.material-chrome {
   background: linear-gradient(135deg, rgba(200,200,210,0.7), rgba(160,160,180,0.5));
 }
-.material-chip.material-thick {
-  background: rgba(150,150,170,0.6);
-}
-.material-chip.material-regular {
-  background: rgba(180,180,200,0.4);
-}
-.material-chip.material-thin {
-  background: rgba(200,200,220,0.25);
-}
-.material-chip.material-ultrathin {
-  background: rgba(220,220,240,0.12);
-}
+.material-chip.material-thick { background: rgba(150,150,170,0.6); }
+.material-chip.material-regular { background: rgba(180,180,200,0.4); }
+.material-chip.material-thin { background: rgba(200,200,220,0.25); }
+.material-chip.material-ultrathin { background: rgba(220,220,240,0.12); }
 
 [data-theme="dark"] .material-chip.material-chrome {
   background: linear-gradient(135deg, rgba(80,80,100,0.7), rgba(60,60,75,0.6));
 }
-[data-theme="dark"] .material-chip.material-thick {
-  background: rgba(70,70,85,0.7);
-}
-[data-theme="dark"] .material-chip.material-regular {
-  background: rgba(65,65,80,0.5);
-}
-[data-theme="dark"] .material-chip.material-thin {
-  background: rgba(60,60,75,0.35);
-}
-[data-theme="dark"] .material-chip.material-ultrathin {
-  background: rgba(55,55,70,0.2);
-}
+[data-theme="dark"] .material-chip.material-thick { background: rgba(70,70,85,0.7); }
+[data-theme="dark"] .material-chip.material-regular { background: rgba(65,65,80,0.5); }
+[data-theme="dark"] .material-chip.material-thin { background: rgba(60,60,75,0.35); }
+[data-theme="dark"] .material-chip.material-ultrathin { background: rgba(55,55,70,0.2); }
 </style>

@@ -1,8 +1,8 @@
 <template>
-  <div class="ios-lgb-track" role="tablist">
+  <div class="ios-capsule-track" role="tablist">
     <div
       ref="pillRef"
-      class="ios-lgb-pill"
+      class="ios-capsule-pill"
       :style="pillStyle"
       aria-hidden="true"
     />
@@ -10,13 +10,13 @@
       v-for="(item, i) in items"
       :key="item.id ?? i"
       role="tab"
-      class="ios-lgb-option"
-      :class="{ 'ios-lgb-active': activeIndex === i }"
+      class="ios-capsule-option"
+      :class="{ 'ios-capsule-active': activeIndex === i }"
       :aria-selected="activeIndex === i"
       @click="select(i)"
     >
       <IosIcon v-if="item.iconName" :name="item.iconName" :size="16" />
-      <span class="ios-lgb-label">{{ item.label ?? item }}</span>
+      <span class="ios-capsule-label">{{ item.label ?? item }}</span>
     </button>
   </div>
 </template>
@@ -61,7 +61,7 @@ function measurePill(index) {
   const pill = pillRef.value
   if (!pill) return
   const track = pill.parentElement
-  const btns = track.querySelectorAll('.ios-lgb-option')
+  const btns = track.querySelectorAll('.ios-capsule-option')
   const btn = btns[index]
   if (!btn) return
   const tr = track.getBoundingClientRect()
@@ -93,7 +93,7 @@ onUnmounted(() => resizeObserver?.disconnect())
 </script>
 
 <style scoped>
-.ios-lgb-track {
+.ios-capsule-track {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -103,7 +103,7 @@ onUnmounted(() => resizeObserver?.disconnect())
   border-radius: var(--radius-full);
 }
 
-.ios-lgb-pill {
+.ios-capsule-pill {
   position: absolute;
   top: 2px;
   height: calc(100% - 4px);
@@ -112,14 +112,12 @@ onUnmounted(() => resizeObserver?.disconnect())
   pointer-events: none;
   z-index: 0;
   will-change: transform;
-  box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.12),
-    0 3px 1px rgba(0, 0, 0, 0.04);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1.0),
-              width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1.0);
+  box-shadow: var(--shadow-pill);
+  transition: transform var(--duration-slow) var(--ease-spring),
+              width var(--duration-slow) var(--ease-spring);
 }
 
-.ios-lgb-option {
+.ios-capsule-option {
   position: relative;
   z-index: 1;
   flex: 1;
@@ -135,24 +133,23 @@ onUnmounted(() => resizeObserver?.disconnect())
   border-radius: var(--radius-full);
   font-family: var(--font-family);
   white-space: nowrap;
-  transition: color 0.2s ease-out;
+  transition: color var(--duration-normal) ease-out;
   gap: 4px;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
 }
 
-.ios-lgb-option.ios-lgb-active {
+.ios-capsule-option.ios-capsule-active {
   color: var(--label-primary);
 }
 
-.ios-lgb-label {
-  font-size: var(--text-footnote);
+.ios-capsule-label {
+  font: var(--type-footnote);
   font-weight: var(--weight-semibold);
-  line-height: var(--lh-footnote);
 }
 
-[data-theme="dark"] .ios-lgb-pill {
-  background: rgba(255, 255, 255, 0.2);
+[data-theme="dark"] .ios-capsule-pill {
+  background: var(--pill-indicator-bg-dark);
   box-shadow: none;
 }
 </style>

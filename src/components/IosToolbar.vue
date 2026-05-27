@@ -14,6 +14,13 @@
 </template>
 
 <script setup>
+/**
+ * IosToolbar — Top toolbar with optional large title and collapse support.
+ *
+ * @prop {string} title - Toolbar title (required)
+ * @prop {boolean} [largeTitle=false] - Show large title below toolbar
+ * @prop {number} [scrollY=0] - Current scroll position (collapses when > 44)
+ */
 import { computed } from 'vue'
 
 const props = defineProps({
@@ -35,16 +42,12 @@ const collapsed = computed(() => props.scrollY > 44)
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(250, 250, 250, 0.7);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
+  background: var(--toolbar-bg);
+  backdrop-filter: blur(var(--toolbar-blur));
+  -webkit-backdrop-filter: blur(var(--toolbar-blur));
 }
 .ios-toolbar-title {
-  font-family: var(--font-family);
-  font-size: var(--text-headline);
-  line-height: var(--lh-headline);
-  letter-spacing: var(--ls-headline);
-  font-weight: var(--weight-semibold);
+  font: var(--type-headline);
 }
 .ios-toolbar-leading,
 .ios-toolbar-trailing { display: flex; gap: var(--space-2); min-width: 60px; }
@@ -54,14 +57,10 @@ const collapsed = computed(() => props.scrollY > 44)
 }
 .ios-toolbar-large-title {
   padding: 0 var(--space-4) var(--space-2);
-  font-family: var(--font-family);
-  font-size: var(--text-large-title);
-  line-height: var(--lh-large-title);
-  letter-spacing: var(--ls-large-title);
-  font-weight: var(--weight-bold);
+  font: var(--type-large-title);
 }
 
 [data-theme="dark"] .ios-toolbar {
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--toolbar-bg);
 }
 </style>

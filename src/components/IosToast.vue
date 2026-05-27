@@ -44,9 +44,9 @@ const { toasts, removeToast } = useToast()
   backdrop-filter: blur(var(--blur-regular));
   -webkit-backdrop-filter: blur(var(--blur-regular));
   border: var(--border-hairline) solid var(--separator);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-md);
   pointer-events: auto;
-  transition: background-color 0.3s;
+  transition: background-color var(--duration-slow);
 }
 
 /* ---- Indicator bar ------------------------------------------------------ */
@@ -77,10 +77,7 @@ const { toasts, removeToast } = useToast()
 /* ---- Message ------------------------------------------------------------ */
 .ios-toast-message {
   flex: 1;
-  font-family: var(--font-family);
-  font-size: var(--text-subheadline);
-  line-height: var(--lh-subheadline);
-  letter-spacing: var(--ls-subheadline);
+  font: var(--type-subheadline);
   color: var(--label-primary);
   word-break: break-word;
 }
@@ -101,7 +98,7 @@ const { toasts, removeToast } = useToast()
   font-size: var(--text-body);
   line-height: 1;
   cursor: pointer;
-  transition: background-color 0.2s, color 0.2s;
+  transition: background-color var(--duration-normal), color var(--duration-normal);
 }
 
 .ios-toast-close:hover {
@@ -111,11 +108,11 @@ const { toasts, removeToast } = useToast()
 
 /* ---- Transitions -------------------------------------------------------- */
 .ios-toast-enter-active {
-  transition: all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: all var(--duration-slow) var(--ease-default);
 }
 
 .ios-toast-leave-active {
-  transition: all 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: all var(--duration-normal) var(--ease-default);
 }
 
 .ios-toast-enter-from {
@@ -129,6 +126,6 @@ const { toasts, removeToast } = useToast()
 }
 
 .ios-toast-move {
-  transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: transform var(--duration-slow) var(--ease-default);
 }
 </style>

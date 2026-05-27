@@ -166,7 +166,7 @@ function goTo(page) {
   font-size: var(--text-subheadline);
   font-weight: var(--weight-medium);
   cursor: pointer;
-  transition: background-color 0.2s, color 0.2s, opacity 0.2s;
+  transition: background-color var(--duration-normal), color var(--duration-normal), opacity var(--duration-normal);
   -webkit-tap-highlight-color: transparent;
 }
 

@@ -30,6 +30,15 @@
 </template>
 
 <script setup>
+/**
+ * IosTagInput — Text input with dropdown autocomplete suggestions.
+ *
+ * @prop {string} [modelValue=''] - Input value (v-model)
+ * @prop {string[]} [options=[]] - Suggestion options
+ * @prop {string} [placeholder=''] - Placeholder text
+ *
+ * @event {'update:modelValue'} update:modelValue - Emitted on input (v-model)
+ */
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 
 const props = defineProps({
@@ -113,11 +122,11 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
   color: var(--label-primary);
   background: var(--fill-tertiary);
   outline: none;
-  transition: box-shadow 0.25s ease;
+  transition: box-shadow var(--duration-normal) ease;
 }
 
 .ios-tag-input-field:focus {
-  box-shadow: inset 0 0 0 1.5px var(--color-blue);
+  box-shadow: var(--focus-ring);
 }
 
 .ios-tag-input-field::placeholder {
@@ -136,7 +145,7 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
   max-height: 200px;
   overflow-y: auto;
   z-index: 100;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-md);
 }
 
 .ios-tag-input-option {

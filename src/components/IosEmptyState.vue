@@ -18,13 +18,14 @@
     <!-- Action button -->
     <div class="ios-empty-state-action">
       <slot name="action">
-        <button
+        <IosButton
           v-if="actionText"
-          class="ios-empty-state-action-btn"
+          variant="plain"
+          size="small"
           @click="$emit('action')"
         >
           {{ actionText }}
-        </button>
+        </IosButton>
       </slot>
     </div>
   </div>
@@ -32,6 +33,7 @@
 
 <script setup>
 import IosIcon from './IosIcon.vue'
+import IosButton from './IosButton.vue'
 
 /**
  * IosEmptyState — Centered empty state placeholder with icon, title, description, and action button.
@@ -78,49 +80,18 @@ defineEmits(['action'])
 }
 
 .ios-empty-state-title {
-  font-family: var(--font-family);
-  font-size: var(--text-title2);
-  line-height: var(--lh-title2);
-  letter-spacing: var(--ls-title2);
-  font-weight: var(--weight-semibold);
+  font: var(--type-title2);
   color: var(--label-primary);
   margin: 0;
 }
 
 .ios-empty-state-description {
-  font-family: var(--font-family);
-  font-size: var(--text-subheadline);
-  line-height: var(--lh-subheadline);
-  letter-spacing: var(--ls-subheadline);
-  font-weight: var(--weight-regular);
+  font: var(--type-subheadline);
   color: var(--label-secondary);
   margin: var(--space-2) 0 0;
 }
 
 .ios-empty-state-action {
   margin-top: var(--space-2);
-}
-
-.ios-empty-state-action-btn {
-  font-family: var(--font-family);
-  font-size: var(--text-callout);
-  line-height: var(--lh-callout);
-  letter-spacing: var(--ls-callout);
-  font-weight: var(--weight-semibold);
-  color: var(--color-blue);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: var(--space-2) var(--space-4);
-  -webkit-tap-highlight-color: transparent;
-  transition: opacity 0.2s;
-}
-
-.ios-empty-state-action-btn:hover {
-  opacity: var(--opacity-hover);
-}
-
-.ios-empty-state-action-btn:active {
-  opacity: var(--opacity-muted);
 }
 </style>

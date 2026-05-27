@@ -17,6 +17,18 @@
 </template>
 
 <script setup>
+/**
+ * IosSlider — iOS-style horizontal slider with leading/trailing slots.
+ *
+ * @prop {number} [modelValue=0] - Current value (v-model)
+ * @prop {number} [min=0] - Minimum value
+ * @prop {number} [max=100] - Maximum value
+ * @prop {number} [step=1] - Step increment
+ * @prop {boolean} [disabled=false] - Disabled state
+ *
+ * @event {'update:modelValue'} update:modelValue - Emitted on input (v-model)
+ * @event {'change'} change - Emitted on input with new value
+ */
 import { computed } from 'vue'
 
 const props = defineProps({
@@ -62,7 +74,7 @@ function onInput(e) {
   height: var(--space-7);
   border-radius: 50%;
   background: var(--white);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-thumb);
   cursor: pointer;
   border: none;
 }

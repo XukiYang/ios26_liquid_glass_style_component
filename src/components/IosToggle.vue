@@ -15,6 +15,16 @@
 </template>
 
 <script setup>
+/**
+ * IosToggle — iOS-style toggle switch with v-model support.
+ *
+ * @prop {boolean} [modelValue=false] - Toggle state (v-model)
+ * @prop {boolean} [disabled=false] - Disabled state
+ * @prop {string} [label] - Optional label text displayed beside the toggle
+ *
+ * @event {'update:modelValue'} update:modelValue - Emitted on toggle (v-model)
+ * @event {'change'} change - Emitted on toggle with new value
+ */
 const props = defineProps({
   modelValue: Boolean,
   disabled: Boolean,
@@ -48,7 +58,7 @@ function onToggle() {
   background-color: var(--fill-secondary);
   cursor: pointer;
   flex-shrink: 0;
-  transition: background-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1.0);
+  transition: background-color var(--duration-slow) var(--ease-spring);
   padding: 0;
 }
 .ios-toggle.ios-checked { background-color: var(--color-green); }
@@ -60,14 +70,11 @@ function onToggle() {
   height: 27px;
   border-radius: 50%;
   background-color: var(--white);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1.0);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-slow) var(--ease-spring);
 }
 .ios-toggle.ios-checked .ios-toggle-thumb { transform: translateX(20px); }
 .ios-toggle-label {
-  font-family: var(--font-family);
-  font-size: var(--text-body);
-  line-height: var(--lh-body);
-  letter-spacing: var(--ls-body);
+  font: var(--type-body);
 }
 </style>
