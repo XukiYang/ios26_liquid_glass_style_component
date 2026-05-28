@@ -48,10 +48,18 @@ export function useGsap() {
       const instant = { ...vars, duration: 0 }
       return gsap.to(target, instant)
     }
+    const userOnComplete = vars.onComplete
+    const userOnKill = vars.onKill
     const t = gsap.to(target, vars)
     active.add(t)
-    t.eventCallback('onComplete', () => active.delete(t))
-    t.eventCallback('onKill', () => active.delete(t))
+    t.eventCallback('onComplete', () => {
+      active.delete(t)
+      if (userOnComplete) userOnComplete()
+    })
+    t.eventCallback('onKill', () => {
+      active.delete(t)
+      if (userOnKill) userOnKill()
+    })
     return t
   }
 
